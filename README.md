@@ -25,7 +25,7 @@ Godes is the general-purpose simulation library which includes the  simulation e
 
 ###Examples###
 
-####Simulation Case 0.Using Basic Features####
+####Simulation Case 0.Basic Features####
 During the working day the visitors are entering the restaurant at random intervals and immideatly get the table.
 The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
@@ -91,7 +91,7 @@ Visitor 15 arrives at time= 416.638
 Visitor 16 arrives at time= 449.534 
 Visitor 17 arrives at time= 475.263 
 ```
-####Simulation Case 1. Using Boolean Controls####
+####Simulation Case 1. Boolean Controls####
 The restaurant has only one table to sit on. During the working day the visitors are entering the restaurant at random intervals
 and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The time spent in the restaurant is the random variable with uniform distribution from 10 to 60 minutes.
@@ -189,7 +189,7 @@ Visitor 12 leaves at time= 472.067
 Visitor 13 gets the table at time= 472.067 
 Visitor 13 leaves at time= 497.555 
 ```
-####Simulation Case 2. Using Queues####
+####Simulation Case 2. Queues####
 ==============================
 Now the restorant has only four waiters and visitors are making a FIFO Queue at the entrance. We need to find an average waiting time.
 ```go
