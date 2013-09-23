@@ -15,22 +15,22 @@ Godes is the general-purpose simulation library which includes the  simulation e
 * Speed of the Godes model compilation is high
 * Variety of the IDE with debuggers are available for Go and Godes as well
 * The Godes model can use all of the GO's features and libraries
-* Code Security - the Godes includes the  source code for the model,  Go is an open source project supported by Google
+* Code Security - the Godes includes the  source code for the library and Go is an open source project supported by Google
+* Godes is free open source software under MIT license
 
 ###Installation###
-*	Download, install and test the Go at your machine. See instructions at http://golang.org/doc/install
+* Download, install and test the Go at your machine. See instructions at http://golang.org/doc/install
 * Optionally install one of the free Go IDE (i.e.LiteIDE X)
 * Download Godes package
 * Test one of the examples provided
 
 ###Examples###
 
-####Simulation Case 0.Basic Features####
+####Simulation Case 0. Basic Features####
 During the working day the visitors are entering the restaurant at random intervals and immideatly get the table.
 The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
 The simulation itself is terminated when the last visitors enters the restaurant.
-
 ```go
 package main
 
@@ -91,7 +91,7 @@ Visitor 15 arrives at time= 416.638
 Visitor 16 arrives at time= 449.534 
 Visitor 17 arrives at time= 475.263 
 ```
-####Simulation Case 1. Boolean Controls####
+####Simulation Case 1.  Boolean Controls####
 The restaurant has only one table to sit on. During the working day the visitors are entering the restaurant at random intervals
 and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The time spent in the restaurant is the random variable with uniform distribution from 10 to 60 minutes.
@@ -265,7 +265,6 @@ func main() {
 			visitorArrivalQueue.Place(visitor)
 			fmt.Printf("Visitor %v arrives at time= %6.3f \n", visitor.id, godes.Stime)
 			waitersSwt.Set(true)
-
 			visitorsCount++
 		} else {
 			break
