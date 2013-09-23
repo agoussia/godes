@@ -12,10 +12,10 @@ Godes is the general-purpose simulation library which includes the  simulation e
 * Godes model executes fast  as Go compiles to machine code.
 * Godes model is multiplatform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows, etc
 * Godes model can be embedded in various computer systems and over the network
-* Speed of the GODES model compilation is high
+* Speed of the Godes model compilation is high
 * Variety of the IDE with debuggers are available for Go and Godes as well
-* The GodesS simulation model can use all of the features and libraries of the Go
-* Code Security- the GODES includes the  source code for the model,  Go is an open source project supported by Google
+* The Godes model can use all of the GO's features and libraries
+* Code Security - the Godes includes the  source code for the model,  Go is an open source project supported by Google
 
 #Installation
 *	Download, install and test the Go at your machine. See instructions at http://golang.org/doc/install
