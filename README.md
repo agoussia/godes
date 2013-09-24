@@ -189,7 +189,7 @@ Visitor 12 leaves at time= 472.067
 Visitor 13 gets the table at time= 472.067 
 Visitor 13 leaves at time= 497.555 
 ```
-####Simulation Case 2.  Boolean Controls####
+####Simulation Case 2.  Queues####
 During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue. 
 The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes. 
 The simulation itself is terminated when 
