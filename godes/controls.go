@@ -34,3 +34,7 @@ func (bc *BooleanControl) getState() bool {
 	return bc.state
 
 }
+func (bc *BooleanControl) Clear() {
+	bc.state = false
+
+}

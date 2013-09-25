@@ -13,7 +13,8 @@ import (
 var arrival *godes.UniformDistr = godes.NewUniformDistr()
 
 // the Visitor is a Runner
-// any type of the Runner should be defined as struct // with the *godes.Runner as anonimous field
+// any type of the Runner should be defined as struct
+// with the *godes.Runner as anonimous field
 type Visitor struct {
 	*godes.Runner
 	number int
@@ -22,21 +23,23 @@ type Visitor struct {
 var visitorsCount int = 0
 
 func (vst Visitor) Run() { // Any runner should have the Run method
-	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.Stime)
+	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.GetSystemTime())
 
 }
 func main() {
 	var shutdown_time float64 = 8 * 60
 	for {
 		//godes.Stime is the current simulation time
-		if godes.Stime < shutdown_time {
+		if godes.GetSystemTime() < shutdown_time {
 			//the function acivates the Runner
 			godes.ActivateRunner(Visitor{&godes.Runner{}, visitorsCount})
+			//this advance the system time
 			godes.Advance(arrival.Get(0, 70))
 			visitorsCount++
 		} else {
 			break
 		}
 	}
-	godes.WaitUntilDone() // waits for all the runners to finish the Run()
+	// waits for all the runners to finish the Run()
+	godes.WaitUntilDone()
 }

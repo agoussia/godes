@@ -131,8 +131,7 @@ func (b *Runner) String() string {
 		st = "READY"
 	case RUNNER_STATE_ACTIVE:
 		st = "ACTIVE"
-	case RUNNER_STATE_WAITING:
-		st = "WAITING"
+
 	case RUNNER_STATE_WAITING_COND:
 		st = "WAITING_COND"
 	case RUNNER_STATE_SCHEDULED:

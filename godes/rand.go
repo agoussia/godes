@@ -25,3 +25,7 @@ func NewUniformDistr() *UniformDistr {
 func (b *UniformDistr) Get(min float64, max float64) float64 {
 	return b.generator.Float64()*(max-min) + min
 }
+
+func (b *UniformDistr) Clear() {
+	b.generator = rand.New(rand.NewSource(time.Now().UnixNano()))
+}

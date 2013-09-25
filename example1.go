@@ -25,19 +25,19 @@ type Visitor struct {
 var visitorsCount int = 0
 
 func (vst Visitor) Run() { // Any runner should have the Run method
-	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.Stime)
+	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.GetSystemTime())
 	tableBusy.Wait(false) // this will wait till the tableBusy control becomes false
 	tableBusy.Set(true)   // sets the tableBusy control to true - the table is busy
-	fmt.Printf("Visitor %v gets the table at time= %6.3f \n", vst.number, godes.Stime)
+	fmt.Printf("Visitor %v gets the table at time= %6.3f \n", vst.number, godes.GetSystemTime())
 	godes.Advance(service.Get(10, 60)) //the function advance the simulation time by the value in the argument
 	tableBusy.Set(false)               // sets the tableBusy control to false - the table is idle
-	fmt.Printf("Visitor %v leaves at time= %6.3f \n", vst.number, godes.Stime)
+	fmt.Printf("Visitor %v leaves at time= %6.3f \n", vst.number, godes.GetSystemTime())
 }
 func main() {
 	var shutdown_time float64 = 8 * 60
 	for {
-		//godes.Stime is the current simulation time
-		if godes.Stime < shutdown_time {
+		//godes.GetSystemTime() is the current simulation time
+		if godes.GetSystemTime() < shutdown_time {
 			//the function acivates the Runner
 			godes.ActivateRunner(Visitor{&godes.Runner{}, visitorsCount})
 			godes.Advance(arrival.Get(0, 70))

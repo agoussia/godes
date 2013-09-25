@@ -31,31 +31,31 @@ func (q *Queue) Len() int {
 	return q.qList.Len()
 }
 
-func (q *Queue) Place(runner RunnerInterface) {
-	q.qList.PushFront(runner)
-	q.qTime.PushFront(Stime)
+func (q *Queue) Place(entity interface{}) {
+	q.qList.PushFront(entity)
+	q.qTime.PushFront(stime)
 }
 
-func (q *Queue) Get() RunnerInterface {
+func (q *Queue) Get() interface{} {
 
-	var runner RunnerInterface
+	var entity interface{}
 	var timeIn float64
 	if q.fifo {
-		runner = q.qList.Back().Value.(RunnerInterface)
+		entity = q.qList.Back().Value
 		timeIn = q.qTime.Back().Value.(float64)
 		q.qList.Remove(q.qList.Back())
 		q.qTime.Remove(q.qTime.Back())
 	} else {
-		runner = q.qList.Front().Value.(RunnerInterface)
+		entity = q.qList.Front().Value
 		timeIn = q.qTime.Front().Value.(float64)
 		q.qList.Remove(q.qList.Front())
 		q.qTime.Remove(q.qTime.Front())
 	}
 
-	q.sumTime = q.sumTime + Stime - timeIn
+	q.sumTime = q.sumTime + stime - timeIn
 	q.count++
 
-	return runner
+	return entity
 }
 
 func NewFIFOQueue() *FIFOQueue {
@@ -64,4 +64,12 @@ func NewFIFOQueue() *FIFOQueue {
 
 func NewLIFOQueue() *LIFOQueue {
 	return &LIFOQueue{Queue{fifo: false, qList: list.New(), qTime: list.New()}}
+}
+
+func (q *Queue) Clear() {
+	q.sumTime = 0
+	q.count = 0
+	q.qList.Init()
+	q.qTime.Init()
+
 }

@@ -45,12 +45,12 @@ func NewModel(verbose bool) *Model {
 func (mdl *Model) advance(interval float64) bool {
 
 	ch := mdl.activeRunner.getChannel()
-	mdl.activeRunner.setMovingTime(Stime + interval)
+	mdl.activeRunner.setMovingTime(stime + interval)
 	mdl.activeRunner.setState(RUNNER_STATE_SCHEDULED)
 	mdl.removeFromMovingList(mdl.activeRunner)
 	mdl.addToSchedulledList(mdl.activeRunner)
 	//restart control channel and freez
-	mdl.controlChannel <- TRANSITION_ADVANCE
+	mdl.controlChannel <- 100
 	<-ch
 	return true
 }
@@ -80,7 +80,7 @@ func (mdl *Model) activate(runner RunnerInterface) bool {
 
 	mdl.currentId++
 	runner.setChannel(make(chan int))
-	runner.setMovingTime(Stime)
+	runner.setMovingTime(stime)
 	runner.setId(mdl.currentId)
 	runner.setState(RUNNER_STATE_READY)
 	mdl.addToMovingList(runner)
@@ -161,10 +161,10 @@ func (mdl *Model) control() bool {
 			}
 			if runner == nil && mdl.scheduledList != nil && mdl.scheduledList.Len() > 0 {
 				runner = mdl.getFromSchedulledList()
-				if runner.GetMovingTime() < Stime {
+				if runner.GetMovingTime() < stime {
 					panic("control is seting simulation time in the past")
 				} else {
-					Stime = runner.GetMovingTime()
+					stime = runner.GetMovingTime()
 				}
 				mdl.addToMovingList(runner)
 			}
