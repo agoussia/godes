@@ -1,23 +1,24 @@
 // Copyright 2013 Alex Goussiatiner. All rights reserved.
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
+
 package godes
 
 import (
 	"container/list"
 	"fmt"
-	"sync"
+	//"sync"
 	"time"
 )
 
 type Model struct {
-	mu                  sync.RWMutex
+	//mu                  sync.RWMutex
 	activeRunner        RunnerInterface
 	movingList          *list.List
 	scheduledList       *list.List
 	waitingList         *list.List
 	waitingConditionMap map[int]RunnerInterface
-	interruptedList     *list.List
+	interruptedMap      map[int]RunnerInterface
 	terminatedList      *list.List
 	currentId           int
 	controlChannel      chan int
@@ -25,8 +26,8 @@ type Model struct {
 	DEBUG               bool
 }
 
-//Initilization Of the Main Ball
-func NewModel(verbose bool) *Model {
+//newModel initilizes the model
+func newModel(verbose bool) *Model {
 
 	var ball *Runner = NewRunner()
 	ball.channel = make(chan int)
@@ -36,9 +37,8 @@ func NewModel(verbose bool) *Model {
 	ball.priority = 100
 	ball.setMarkTime(time.Now())
 	var runner RunnerInterface = ball
-	mdl := Model{activeRunner: runner, controlChannel: make(chan int), DEBUG: verbose}
+	mdl := Model{activeRunner: runner, controlChannel: make(chan int), DEBUG: verbose, simulationActive: false}
 	mdl.addToMovingList(runner)
-
 	return &mdl
 }
 
@@ -76,7 +76,7 @@ func (mdl *Model) waitUntillDone() {
 	}
 }
 
-func (mdl *Model) activate(runner RunnerInterface) bool {
+func (mdl *Model) add(runner RunnerInterface) bool {
 
 	mdl.currentId++
 	runner.setChannel(make(chan int))
@@ -98,6 +98,28 @@ func (mdl *Model) activate(runner RunnerInterface) bool {
 		mdl.controlChannel <- 100
 	}()
 	return true
+
+}
+
+func (mdl *Model) interrupt(runner RunnerInterface) {
+
+	if runner.GetState() != RUNNER_STATE_SCHEDULED {
+		panic("It is not  RUNNER_STATE_SCHEDULED")
+	}
+	mdl.removeFromSchedulledList(runner)
+	runner.setState(RUNNER_STATE_INTERRUPTED)
+	mdl.addToInterruptedMap(runner)
+
+}
+
+func (mdl *Model) resume(runner RunnerInterface, timeChange float64) {
+	if runner.GetState() != RUNNER_STATE_INTERRUPTED {
+		panic("It is not  RUNNER_STATE_INTERRUPTED")
+	}
+	mdl.removeFromInterruptedMap(runner)
+	runner.setState(RUNNER_STATE_SCHEDULED)
+	runner.setMovingTime(runner.GetMovingTime() + timeChange)
+	mdl.addToMovingList(runner)
 
 }
 

@@ -1,6 +1,7 @@
 // Copyright 2013 Alex Goussiatiner. All rights reserved.
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
+
 package godes
 
 import (
@@ -131,7 +132,6 @@ func (b *Runner) String() string {
 		st = "READY"
 	case RUNNER_STATE_ACTIVE:
 		st = "ACTIVE"
-
 	case RUNNER_STATE_WAITING_COND:
 		st = "WAITING_COND"
 	case RUNNER_STATE_SCHEDULED:

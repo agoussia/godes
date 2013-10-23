@@ -69,12 +69,17 @@ func (mdl *Model) removeFromMovingList(runner RunnerInterface) {
 	if mdl.DEBUG {
 		fmt.Printf("removeFromMovingList %v\n", runner)
 	}
-
+	var found bool
 	for e := mdl.movingList.Front(); e != nil; e = e.Next() {
 		if e.Value == runner {
 			mdl.movingList.Remove(e)
+			found = true
 			break
 		}
+	}
+
+	if !found {
+		//panic("not found in MovingList")
 	}
 }
 
@@ -90,7 +95,6 @@ Priorites are not used
 			|	|	|	|--->
 
 */
-
 func (mdl *Model) addToSchedulledList(runner RunnerInterface) bool {
 
 	if mdl.scheduledList == nil {
@@ -141,16 +145,19 @@ func (mdl *Model) removeFromSchedulledList(runner RunnerInterface) {
 	if model.DEBUG {
 		fmt.Printf("removeFrom schedulledListt %v\n", runner)
 	}
+	var found bool
 	for e := mdl.scheduledList.Front(); e != nil; e = e.Next() {
 		if e.Value == runner {
 			mdl.scheduledList.Remove(e)
+			found = true
 			break
 		}
 	}
+	if !found {
+		panic("not found in scheduledList")
+	}
 	return
 }
-
-//waitingConditionList
 
 func (mdl *Model) addToWaitingConditionMap(runner RunnerInterface) bool {
 
@@ -167,5 +174,34 @@ func (mdl *Model) addToWaitingConditionMap(runner RunnerInterface) bool {
 
 	}
 	mdl.waitingConditionMap[runner.GetId()] = runner
+	return true
+}
+
+func (mdl *Model) addToInterruptedMap(runner RunnerInterface) bool {
+
+	if mdl.DEBUG {
+		fmt.Printf("addToInterruptedMap %v\n", runner)
+	}
+	if mdl.interruptedMap == nil {
+		mdl.interruptedMap = make(map[int]RunnerInterface)
+	}
+
+	mdl.interruptedMap[runner.GetId()] = runner
+	return true
+}
+
+func (mdl *Model) removeFromInterruptedMap(runner RunnerInterface) bool {
+
+	if mdl.DEBUG {
+		fmt.Printf("removeFromInterruptedMap %v\n", runner)
+	}
+
+	_, ok := mdl.interruptedMap[runner.GetId()]
+
+	if ok {
+		delete(mdl.interruptedMap, runner.GetId())
+	} else {
+		panic("not found in interruptedMap")
+	}
 	return true
 }

@@ -35,11 +35,12 @@ func (vst Visitor) Run() { // Any runner should have the Run method
 }
 func main() {
 	var shutdown_time float64 = 8 * 60
+	godes.Run()
 	for {
 		//godes.GetSystemTime() is the current simulation time
 		if godes.GetSystemTime() < shutdown_time {
 			//the function acivates the Runner
-			godes.ActivateRunner(Visitor{&godes.Runner{}, visitorsCount})
+			godes.AddRunner(Visitor{&godes.Runner{}, visitorsCount})
 			godes.Advance(arrival.Get(0, 70))
 			visitorsCount++
 		} else {

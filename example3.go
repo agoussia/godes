@@ -16,7 +16,7 @@ var service *godes.UniformDistr = godes.NewUniformDistr()
 var waitersSwt *godes.BooleanControl = godes.NewBooleanControl()
 
 // FIFO Queue for the arrived
-var visitorArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue()
+var visitorArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue("0")
 
 // the Visitor is a Passive Object
 type Visitor struct {
@@ -32,7 +32,7 @@ type Waiter struct {
 var visitorsCount int = 0
 var shutdown_time float64 = 4 * 60
 
-func (waiter Waiter) Run() {
+func (waiter *Waiter) Run() {
 	for {
 		waitersSwt.Wait(true)
 		if visitorArrivalQueue.Len() > 0 {
@@ -54,8 +54,9 @@ func main() {
 
 	for runs := 0; runs < 5; runs++ {
 		for i := 0; i < 2; i++ {
-			godes.ActivateRunner(Waiter{&godes.Runner{}, i})
+			godes.AddRunner(&Waiter{&godes.Runner{}, i})
 		}
+		godes.Run()
 		for {
 			//godes.Stime is the current simulation time
 
@@ -69,7 +70,7 @@ func main() {
 		}
 		waitersSwt.Set(true)
 		godes.WaitUntilDone() // waits for all the runners to finish the Run()
-		fmt.Printf(" Run # %v Average Waiting Time %6.3f  \n", runs, visitorArrivalQueue.GetAverageTime())
+		fmt.Printf(" Run # %v  %v  \n", runs, visitorArrivalQueue)
 		//clear after each run
 		arrival.Clear()
 		service.Clear()

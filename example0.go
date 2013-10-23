@@ -22,17 +22,18 @@ type Visitor struct {
 
 var visitorsCount int = 0
 
-func (vst Visitor) Run() { // Any runner should have the Run method
+func (vst *Visitor) Run() { // Any runner should have the Run method
 	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.GetSystemTime())
 
 }
 func main() {
 	var shutdown_time float64 = 8 * 60
+	godes.Run()
 	for {
 		//godes.Stime is the current simulation time
 		if godes.GetSystemTime() < shutdown_time {
 			//the function acivates the Runner
-			godes.ActivateRunner(Visitor{&godes.Runner{}, visitorsCount})
+			godes.AddRunner(&Visitor{&godes.Runner{}, visitorsCount})
 			//this advance the system time
 			godes.Advance(arrival.Get(0, 70))
 			visitorsCount++

@@ -16,7 +16,7 @@ var service *godes.UniformDistr = godes.NewUniformDistr()
 var waitersSwt *godes.BooleanControl = godes.NewBooleanControl()
 
 // FIFO Queue for the arrived
-var visitorArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue()
+var visitorArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue("arrivalQueue")
 
 // the Visitor is a Passive Object
 type Visitor struct {
@@ -32,7 +32,7 @@ type Waiter struct {
 var visitorsCount int = 0
 var shutdown_time float64 = 4 * 60
 
-func (waiter Waiter) Run() {
+func (waiter *Waiter) Run() {
 
 	for {
 		waitersSwt.Wait(true)
@@ -58,8 +58,9 @@ func main() {
 
 	var visitor Visitor
 	for i := 0; i < 2; i++ {
-		godes.ActivateRunner(Waiter{&godes.Runner{}, i})
+		godes.AddRunner(&Waiter{&godes.Runner{}, i})
 	}
+	godes.Run()
 	for {
 
 		visitorArrivalQueue.Place(Visitor{visitorsCount})

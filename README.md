@@ -32,10 +32,6 @@ The inter arrival interval is the random variable with uniform distribution from
 The last visitor gets admitted not later than 8 hours after the opening.
 The simulation itself is terminated when the last visitors enters the restaurant.
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
-
 package main
 
 import (
@@ -56,17 +52,18 @@ type Visitor struct {
 
 var visitorsCount int = 0
 
-func (vst Visitor) Run() { // Any runner should have the Run method
+func (vst *Visitor) Run() { // Any runner should have the Run method
 	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.GetSystemTime())
 
 }
 func main() {
 	var shutdown_time float64 = 8 * 60
+	godes.Run()
 	for {
 		//godes.Stime is the current simulation time
 		if godes.GetSystemTime() < shutdown_time {
 			//the function acivates the Runner
-			godes.ActivateRunner(Visitor{&godes.Runner{}, visitorsCount})
+			godes.AddRunner(&Visitor{&godes.Runner{}, visitorsCount})
 			//this advance the system time
 			godes.Advance(arrival.Get(0, 70))
 			visitorsCount++
@@ -98,9 +95,6 @@ The time spent in the restaurant is the random variable with uniform distributio
 The last visitor gets admitted not later than 8 hours after the opening.
 The simulation itself is terminated when the last visitors has left the restaurant.
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
 
 import (
@@ -135,11 +129,12 @@ func (vst Visitor) Run() { // Any runner should have the Run method
 }
 func main() {
 	var shutdown_time float64 = 8 * 60
+	godes.Run()
 	for {
 		//godes.GetSystemTime() is the current simulation time
 		if godes.GetSystemTime() < shutdown_time {
 			//the function acivates the Runner
-			godes.ActivateRunner(Visitor{&godes.Runner{}, visitorsCount})
+			godes.AddRunner(Visitor{&godes.Runner{}, visitorsCount})
 			godes.Advance(arrival.Get(0, 70))
 			visitorsCount++
 		} else {
@@ -148,6 +143,7 @@ func main() {
 	}
 	godes.WaitUntilDone() // waits for all the runners to finish the Run()
 }
+
 Results
 Visitor 0 arrives at time=  0.000 
 Visitor 0 gets the table at time=  0.000 
@@ -202,9 +198,6 @@ The simulation itself is terminated when
 
 The model  calculates the average (arithmetic mean) of  the visitors waiting time
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
 
 import (
@@ -220,7 +213,7 @@ var service *godes.UniformDistr = godes.NewUniformDistr()
 var waitersSwt *godes.BooleanControl = godes.NewBooleanControl()
 
 // FIFO Queue for the arrived
-var visitorArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue()
+var visitorArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue("arrivalQueue")
 
 // the Visitor is a Passive Object
 type Visitor struct {
@@ -236,7 +229,7 @@ type Waiter struct {
 var visitorsCount int = 0
 var shutdown_time float64 = 4 * 60
 
-func (waiter Waiter) Run() {
+func (waiter *Waiter) Run() {
 
 	for {
 		waitersSwt.Wait(true)
@@ -254,7 +247,6 @@ func (waiter Waiter) Run() {
 			fmt.Printf("Waiter  %v ends the work at %6.3f \n", waiter.id, godes.GetSystemTime())
 			break
 		}
-
 	}
 }
 
@@ -262,8 +254,9 @@ func main() {
 
 	var visitor Visitor
 	for i := 0; i < 2; i++ {
-		godes.ActivateRunner(Waiter{&godes.Runner{}, i})
+		godes.AddRunner(&Waiter{&godes.Runner{}, i})
 	}
+	godes.Run()
 	for {
 
 		visitorArrivalQueue.Place(Visitor{visitorsCount})
@@ -279,6 +272,7 @@ func main() {
 	godes.WaitUntilDone() // waits for all the runners to finish the Run()
 	fmt.Printf("Average Waiting Time %6.3f  \n", visitorArrivalQueue.GetAverageTime())
 }
+
 
 Results
 Visitor 0 arrives at time=  0.000 
@@ -330,9 +324,6 @@ Average Waiting Time 13.847
 ####Simulation Case 3.  Multiple Runs####
 
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
 
 import (
@@ -348,7 +339,7 @@ var service *godes.UniformDistr = godes.NewUniformDistr()
 var waitersSwt *godes.BooleanControl = godes.NewBooleanControl()
 
 // FIFO Queue for the arrived
-var visitorArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue()
+var visitorArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue("0")
 
 // the Visitor is a Passive Object
 type Visitor struct {
@@ -364,7 +355,7 @@ type Waiter struct {
 var visitorsCount int = 0
 var shutdown_time float64 = 4 * 60
 
-func (waiter Waiter) Run() {
+func (waiter *Waiter) Run() {
 	for {
 		waitersSwt.Wait(true)
 		if visitorArrivalQueue.Len() > 0 {
@@ -386,8 +377,9 @@ func main() {
 
 	for runs := 0; runs < 5; runs++ {
 		for i := 0; i < 2; i++ {
-			godes.ActivateRunner(Waiter{&godes.Runner{}, i})
+			godes.AddRunner(&Waiter{&godes.Runner{}, i})
 		}
+		godes.Run()
 		for {
 			//godes.Stime is the current simulation time
 
@@ -401,7 +393,7 @@ func main() {
 		}
 		waitersSwt.Set(true)
 		godes.WaitUntilDone() // waits for all the runners to finish the Run()
-		fmt.Printf(" Run # %v Average Waiting Time %6.3f  \n", runs, visitorArrivalQueue.GetAverageTime())
+		fmt.Printf(" Run # %v  %v  \n", runs, visitorArrivalQueue)
 		//clear after each run
 		arrival.Clear()
 		service.Clear()
@@ -412,10 +404,127 @@ func main() {
 	}
 }
 
+
 Results
  Run # 0 Average Waiting Time 17.461  
  Run # 1 Average Waiting Time 22.264  
  Run # 2 Average Waiting Time 14.501  
  Run # 3 Average Waiting Time 20.446  
  Run # 4 Average Waiting Time 11.195  
+```
+####Simulation Case 4.  Machine Shop (Interrupt and Resume) ####
+A workshop has *n* identical machines. A stream of jobs (enough to
+keep the machines busy) arrives. Each machine breaks down
+periodically. Repairs are carried out by one repairman.
+The repairman continues them when he is done
+with the machine repair. The workshop works continuously.
+
+```go
+package main
+
+import (
+	"fmt"
+	"godes"
+)
+
+const PT_MEAN = 10.0          //	Avg. processing time in minutes
+const PT_SIGMA = 2.0          //	Sigma of processing time
+const MTTF = 300.0            // 	Mean time to failure in minutes
+const REPAIR_TIME = 30.0      //	Time it takes to repair a machine in minutes
+const REPAIR_TIME_SIGMA = 1.0 //	Sigma of repair time
+
+const NUM_MACHINES = 10
+const SHUT_DOWN_TIME = 4 * 7 * 24 * 60
+
+// random generator for the processing time - normal distribution
+var processingGen *godes.NormalDistr = godes.NewNormalDistr()
+
+// random generator for the  time   until the next failure for a machine - exponential distribution
+var breaksGen *godes.ExpDistr = godes.NewExpDistr()
+
+// true when repairman is available for carrying a repair
+var repairManAvailableSwt *godes.BooleanControl = godes.NewBooleanControl()
+
+type Machine struct {
+	*godes.Runner
+	partsCount int
+	number     int
+}
+
+func (machine *Machine) Run() {
+	for {
+		godes.Advance(processingGen.Get(PT_MEAN, PT_SIGMA))
+		machine.partsCount = machine.partsCount + 1
+		if godes.GetSystemTime() > SHUT_DOWN_TIME {
+			break
+		}
+
+	}
+}
+
+type MachineRepair struct {
+	*godes.Runner
+	machine *Machine
+}
+
+func (machineRepair *MachineRepair) Run() {
+	machine := machineRepair.machine
+	for {
+
+		godes.Advance(breaksGen.Get(1 / MTTF))
+
+		if machine.GetState() == godes.RUNNER_STATE_SCHEDULED {
+			breakTime := godes.GetSystemTime()
+			//interrupt machine
+			godes.Interrupt(machine)
+			repairManAvailableSwt.Wait(true)
+			//repair
+			repairManAvailableSwt.Set(false)
+			godes.Advance(processingGen.Get(REPAIR_TIME, REPAIR_TIME_SIGMA))
+			//release repairman
+			repairManAvailableSwt.Set(true)
+			//resume machine and change the scheduled time to compensate the idle time
+			godes.Resume(machine, godes.GetSystemTime()-breakTime)
+
+		}
+
+		if godes.GetSystemTime() > SHUT_DOWN_TIME {
+			break
+		}
+	}
+}
+
+func main() {
+
+	var m *Machine
+	x := make(map[int]*Machine)
+	for i := 0; i < NUM_MACHINES; i++ {
+		m = &Machine{&godes.Runner{}, 0, i}
+		godes.AddRunner(m)
+		godes.AddRunner(&MachineRepair{&godes.Runner{}, m})
+		x[i] = m
+	}
+	repairManAvailableSwt.Set(true)
+	godes.Run()
+	godes.WaitUntilDone()
+	//print results
+	for i := 0; i < NUM_MACHINES; i++ {
+		m = x[i]
+		fmt.Printf(" Machine # %v %v \n", m.number, m.partsCount)
+	}
+
+}
+
+
+Results
+ Machine # 0 3636 
+ Machine # 1 3635 
+ Machine # 2 3643 
+ Machine # 3 3634 
+ Machine # 4 3652 
+ Machine # 5 3590 
+ Machine # 6 3593 
+ Machine # 7 3662 
+ Machine # 8 3664 
+ Machine # 9 3618  
 ```
