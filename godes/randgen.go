@@ -9,13 +9,31 @@ import (
 	"time"
 )
 
+var curTime int64
+
+func getCurTime() int64 {
+
+	ct := time.Now().UnixNano()
+	if ct > curTime {
+		curTime = ct
+		return ct
+	} else if ct == curTime {
+		curTime = ct + 1
+		return curTime
+	} else {
+		curTime++
+		return curTime
+	}
+
+}
+
 type distribution struct {
 	generator *rand.Rand
 }
 
 // Clear reinitiate the random generator
 func (b *distribution) Clear() {
-	b.generator = rand.New(rand.NewSource(time.Now().UnixNano()))
+	b.generator = rand.New(rand.NewSource(getCurTime()))
 }
 
 //UniformDistr represents the generator for the uniform distribution
@@ -25,7 +43,7 @@ type UniformDistr struct {
 
 //NewUniformDistr initiats the generator for the uniform distribution
 func NewUniformDistr() *UniformDistr {
-	dist := UniformDistr{distribution{rand.New(rand.NewSource(time.Now().UnixNano()))}}
+	dist := UniformDistr{distribution{rand.New(rand.NewSource(getCurTime()))}}
 	return &dist
 }
 
@@ -41,7 +59,7 @@ type NormalDistr struct {
 
 //NewNormalDistr initiats the generator for the normal distribution
 func NewNormalDistr() *NormalDistr {
-	dist := NormalDistr{distribution{rand.New(rand.NewSource(time.Now().UnixNano()))}}
+	dist := NormalDistr{distribution{rand.New(rand.NewSource(getCurTime()))}}
 	return &dist
 }
 
@@ -58,7 +76,7 @@ type ExpDistr struct {
 //NewExpDistr initiats the generator for the exponential distribution
 func NewExpDistr() *ExpDistr {
 
-	dist := ExpDistr{distribution{rand.New(rand.NewSource(time.Now().UnixNano()))}}
+	dist := ExpDistr{distribution{rand.New(rand.NewSource(getCurTime()))}}
 	return &dist
 }
 

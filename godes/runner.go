@@ -35,17 +35,40 @@ type RunnerInterface interface {
 
 	setWaitingForBoolControl(p *BooleanControl)
 	getWaitingForBoolControl() *BooleanControl
+
+	setWaitingForBoolControlTimeoutId(id int)
+	getWaitingForBoolControlTimeoutId() int
 }
 
 type Runner struct {
-	state                 int
-	channel               chan int
-	id                    int
-	movingTime            float64
-	markTime              time.Time
-	priority              int
-	waitingForBool        bool
-	waitingForBoolControl *BooleanControl
+	state                          int
+	channel                        chan int
+	id                             int
+	movingTime                     float64
+	markTime                       time.Time
+	priority                       int
+	waitingForBool                 bool
+	waitingForBoolControl          *BooleanControl
+	waitingForBoolControlTimeoutId int
+}
+
+type TimeoutRunner struct {
+	*Runner
+	original      RunnerInterface
+	timeoutPeriod float64
+}
+
+func (timeOut *TimeoutRunner) Run() {
+	Advance(timeOut.timeoutPeriod)
+
+	if timeOut.original.getWaitingForBoolControl != nil && timeOut.original.getWaitingForBoolControlTimeoutId() == timeOut.id {
+		timeOut.original.setState(RUNNER_STATE_READY)
+		timeOut.original.setWaitingForBoolControl(nil)
+		model.addToMovingList(timeOut.original)
+		delete(model.waitingConditionMap, timeOut.original.GetId())
+
+	}
+
 }
 
 func NewRunner() *Runner {
@@ -121,6 +144,15 @@ func (b *Runner) setWaitingForBoolControl(p *BooleanControl) {
 
 func (b *Runner) getWaitingForBoolControl() *BooleanControl {
 	return b.waitingForBoolControl
+}
+
+func (b *Runner) setWaitingForBoolControlTimeoutId(p int) {
+	b.waitingForBoolControlTimeoutId = p
+
+}
+
+func (b *Runner) getWaitingForBoolControlTimeoutId() int {
+	return b.waitingForBoolControlTimeoutId
 }
 
 func (b *Runner) String() string {

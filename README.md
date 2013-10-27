@@ -26,7 +26,7 @@ Godes is the general-purpose simulation library which includes the  simulation e
 
 ###Examples###
 
-####Simulation Case 0. Basic Features####
+####Example 0. Covers: Basic Features####
 During the working day the visitors are entering the restaurant at random intervals and immideatly get the table.
 The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
@@ -74,6 +74,7 @@ func main() {
 	// waits for all the runners to finish the Run()
 	godes.WaitUntilDone()
 }
+
 Results
 Visitor 0 arrives at time=  0.000 
 Visitor 1 arrives at time= 62.761 
@@ -88,7 +89,7 @@ Visitor 9 arrives at time= 381.318
 Visitor 10 arrives at time= 424.361 
 Visitor 11 arrives at time= 446.308 
 ```
-####Simulation Case 1.  Boolean Controls####
+####Example 1.  Covers:  Boolean Controls####
 The restaurant has only one table to sit on. During the working day the visitors are entering the restaurant at random intervals
 and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The time spent in the restaurant is the random variable with uniform distribution from 10 to 60 minutes.
@@ -144,6 +145,7 @@ func main() {
 	godes.WaitUntilDone() // waits for all the runners to finish the Run()
 }
 
+
 Results
 Visitor 0 arrives at time=  0.000 
 Visitor 0 gets the table at time=  0.000 
@@ -188,7 +190,7 @@ Visitor 12 leaves at time= 469.345
 Visitor 13 gets the table at time= 469.345 
 Visitor 13 leaves at time= 519.771 
 ```
-####Simulation Case 2.  Queues####
+####Example 2.  Covers:  Queues####
 During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue. 
 The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes. 
 The simulation itself is terminated when 
@@ -274,6 +276,7 @@ func main() {
 }
 
 
+
 Results
 Visitor 0 arrives at time=  0.000 
 Visitor 0 is invited by waiter 0 at  0.000 
@@ -321,7 +324,7 @@ Visitor 13 leaves at= 312.358
 Waiter  0 ends the work at 312.358 
 Average Waiting Time 13.847 
 ```
-####Simulation Case 3.  Multiple Runs####
+####Example 3.  Covers: Multiple Runs####
 
 ```go
 package main
@@ -404,7 +407,6 @@ func main() {
 	}
 }
 
-
 Results
  Run # 0 Average Waiting Time 17.461  
  Run # 1 Average Waiting Time 22.264  
@@ -412,7 +414,7 @@ Results
  Run # 3 Average Waiting Time 20.446  
  Run # 4 Average Waiting Time 11.195  
 ```
-####Simulation Case 4.  Machine Shop (Interrupt and Resume) ####
+####Example 4.  Machine Shop (Covers: Interrupt and Resume) ####
 A workshop has *n* identical machines. A stream of jobs (enough to
 keep the machines busy) arrives. Each machine breaks down
 periodically. Repairs are carried out by one repairman.
@@ -527,4 +529,88 @@ Results
  Machine # 7 3662 
  Machine # 8 3664 
  Machine # 9 3618  
+```
+####Example 5.  Bank Renege (Covers: Wait with timeout) ####
+This example models a bank counter and customers arriving at random times. Each customer has a certain patience. It waits to get to the counter until she’s at the end of her tether. If she gets to the counter, she uses it for a while before releasing it.
+
+```go
+package main
+
+import (
+	"fmt"
+	"godes"
+)
+
+const NEW_CUSTOMERS = 5          // Total number of customers
+const INTERVAL_CUSTOMERS = 12.00 // Generate new customers roughly every x minites
+const SERVICE_TIME = 12.0
+const MIN_PATIENCE = 1 // Min. customer patience
+const MAX_PATIENCE = 3 // Max. customer patience
+
+// random generator for the arrival interval - expovariate distribution
+var arrivalGen *godes.ExpDistr = godes.NewExpDistr()
+
+// random generator for the patience time time - uniform distribution
+var patienceGen *godes.UniformDistr = godes.NewUniformDistr()
+
+// random generator for the  service time - expovariate distribution
+var serviceGen *godes.ExpDistr = godes.NewExpDistr()
+
+// true when Counter
+var counterAvailable *godes.BooleanControl = godes.NewBooleanControl()
+
+type Customer struct {
+	*godes.Runner
+	name int
+}
+
+func (customer *Customer) Run() {
+
+	arrivalTime := godes.GetSystemTime()
+	patience := patienceGen.Get(MIN_PATIENCE, MAX_PATIENCE)
+	fmt.Printf("  %6.3f  Customer %v : Here I am   My patience=%6.3f  \n", godes.GetSystemTime(), customer.name, patience)
+
+	counterAvailable.WaitAndTimeout(true, patience)
+	if !counterAvailable.GetState() {
+		fmt.Printf("  %6.3f  Customer %v : RENEGED after  %6.3f \n", godes.GetSystemTime(), customer.name, godes.GetSystemTime()-arrivalTime)
+	} else {
+		counterAvailable.Set(false)
+
+		fmt.Printf("  %6.3f  Customer %v : Waited %6.3f \n", godes.GetSystemTime(), customer.name, godes.GetSystemTime()-arrivalTime)
+		godes.Advance(serviceGen.Get(1 / SERVICE_TIME))
+		fmt.Printf("  %6.3f  Customer %v : Finished \n", godes.GetSystemTime(), customer.name)
+		counterAvailable.Set(true)
+
+	}
+
+}
+
+func main() {
+	counterAvailable.Set(true)
+	godes.Run()
+	for i := 0; i < NEW_CUSTOMERS; i++ {
+		godes.AddRunner(&Customer{&godes.Runner{}, i})
+		godes.Advance(arrivalGen.Get(1 / INTERVAL_CUSTOMERS))
+	}
+
+	godes.WaitUntilDone()
+
+}
+
+
+Results
+  0.000  	Customer 0 : Here I am   My patience= 1.208  
+  0.000   	Customer 0 : Waited  0.000 
+  4.135  	Customer 0 : Finished 
+ 13.514  	Customer 1 : Here I am   My patience= 2.473  
+ 13.514  	Customer 1 : Waited  0.000 
+ 18.172  	Customer 2 : Here I am   My patience= 1.980  
+ 19.749  	Customer 1 : Finished 
+ 19.749  	Customer 2 : Waited  1.576 
+ 24.204  	Customer 3 : Here I am   My patience= 2.795  
+ 26.999  	Customer 3 : RENEGED after   2.795 
+ 27.836  	Customer 2 : Finished 
+ 40.964  	Customer 4 : Here I am   My patience= 2.090  
+ 40.964  	Customer 4 : Waited  0.000 
+ 42.849 	Customer 4 : Finished 
 ```

@@ -50,7 +50,6 @@ func (waiter *Waiter) Run() {
 			fmt.Printf("Waiter  %v ends the work at %6.3f \n", waiter.id, godes.GetSystemTime())
 			break
 		}
-
 	}
 }
 

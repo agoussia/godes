@@ -26,12 +26,10 @@ var breaksGen *godes.ExpDistr = godes.NewExpDistr()
 // true when repairman is available for carrying a repair
 var repairManAvailableSwt *godes.BooleanControl = godes.NewBooleanControl()
 
-// the Visitor is a Passive Object
 type Machine struct {
 	*godes.Runner
 	partsCount int
 	number     int
-	//workingSwt bool
 }
 
 func (machine *Machine) Run() {

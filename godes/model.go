@@ -142,6 +142,15 @@ func (mdl *Model) booleanControlWait(b *BooleanControl, val bool) {
 
 }
 
+func (mdl *Model) booleanControlWaitAndTimeout(b *BooleanControl, val bool, timeout float64) {
+
+	ri := &TimeoutRunner{&Runner{}, mdl.activeRunner, timeout}
+	AddRunner(ri)
+	mdl.activeRunner.setWaitingForBoolControlTimeoutId(ri.GetId())
+	mdl.booleanControlWait(b, val)
+
+}
+
 func (mdl *Model) booleanControlSet(b *BooleanControl) {
 	ch := mdl.activeRunner.getChannel()
 	if mdl.activeRunner == nil {
@@ -167,8 +176,10 @@ func (mdl *Model) control() bool {
 					if temp.getWaitingForBoolControl() == nil {
 						panic("  no BoolControl")
 					}
-					if temp.getWaitingForBool() == temp.getWaitingForBoolControl().getState() {
+					if temp.getWaitingForBool() == temp.getWaitingForBoolControl().GetState() {
 						temp.setState(RUNNER_STATE_READY)
+						temp.setWaitingForBoolControl(nil)
+						temp.setWaitingForBoolControlTimeoutId(-1)
 						mdl.addToMovingList(temp)
 						delete(mdl.waitingConditionMap, key)
 						break

@@ -24,6 +24,16 @@ func (bc *BooleanControl) Wait(b bool) {
 
 }
 
+//Wait stops the runner  untill the BooleanControll bc is set to true or timeout
+func (bc *BooleanControl) WaitAndTimeout(b bool, timeOut float64) {
+	if bc.state == b {
+		//do nothing
+	} else {
+		model.booleanControlWaitAndTimeout(bc, b, timeOut)
+	}
+
+}
+
 // Set changes the value of bc
 func (bc *BooleanControl) Set(b bool) {
 
@@ -35,7 +45,7 @@ func (bc *BooleanControl) Set(b bool) {
 }
 
 // getState returns value of bc
-func (bc *BooleanControl) getState() bool {
+func (bc *BooleanControl) GetState() bool {
 	return bc.state
 }
 
