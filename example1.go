@@ -25,13 +25,13 @@ type Visitor struct {
 var visitorsCount int = 0
 
 func (vst Visitor) Run() { // Any runner should have the Run method
-	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.GetSystemTime())
+	fmt.Printf("%-6.3f \t Visitor %v arrives \n", godes.GetSystemTime(), vst.number)
 	tableBusy.Wait(false) // this will wait till the tableBusy control becomes false
 	tableBusy.Set(true)   // sets the tableBusy control to true - the table is busy
-	fmt.Printf("Visitor %v gets the table at time= %6.3f \n", vst.number, godes.GetSystemTime())
+	fmt.Printf("%-6.3f \t Visitor %v gets the table \n", godes.GetSystemTime(), vst.number)
 	godes.Advance(service.Get(10, 60)) //the function advance the simulation time by the value in the argument
 	tableBusy.Set(false)               // sets the tableBusy control to false - the table is idle
-	fmt.Printf("Visitor %v leaves at time= %6.3f \n", vst.number, godes.GetSystemTime())
+	fmt.Printf("%-6.3f \t Visitor %v leaves \n", godes.GetSystemTime(), vst.number)
 }
 func main() {
 	var shutdown_time float64 = 8 * 60

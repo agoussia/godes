@@ -41,13 +41,13 @@ func (waiter *Waiter) Run() {
 			if visitorArrivalQueue.Len() == 0 {
 				waitersSwt.Set(false)
 			}
-			fmt.Printf("Visitor %v is invited by waiter %v at %6.3f \n", visitor.(Visitor).id, waiter.id, godes.GetSystemTime())
+			fmt.Printf("%-6.3f \t Visitor %v is invited by waiter %v  \n", godes.GetSystemTime(), visitor.(Visitor).id, waiter.id)
 			godes.Advance(service.Get(10, 60)) //advance the simulation time by the visitor service time
-			fmt.Printf("Visitor %v leaves at= %6.3f \n", visitor.(Visitor).id, godes.GetSystemTime())
+			fmt.Printf("%-6.3f \t Visitor %v leaves \n", godes.GetSystemTime(), visitor.(Visitor).id)
 
 		}
 		if godes.GetSystemTime() > shutdown_time && visitorArrivalQueue.Len() == 0 {
-			fmt.Printf("Waiter  %v ends the work at %6.3f \n", waiter.id, godes.GetSystemTime())
+			fmt.Printf("%-6.3f \t Waiter  %v ends the work \n", godes.GetSystemTime(), waiter.id)
 			break
 		}
 	}
@@ -55,7 +55,6 @@ func (waiter *Waiter) Run() {
 
 func main() {
 
-	var visitor Visitor
 	for i := 0; i < 2; i++ {
 		godes.AddRunner(&Waiter{&godes.Runner{}, i})
 	}
@@ -63,7 +62,7 @@ func main() {
 	for {
 
 		visitorArrivalQueue.Place(Visitor{visitorsCount})
-		fmt.Printf("Visitor %v arrives at time= %6.3f \n", visitor.id, godes.GetSystemTime())
+		fmt.Printf("%-6.3f \t Visitor %v arrives \n", godes.GetSystemTime(), visitorsCount)
 		waitersSwt.Set(true)
 		godes.Advance(arrival.Get(0, 30))
 		visitorsCount++

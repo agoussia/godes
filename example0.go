@@ -23,8 +23,7 @@ type Visitor struct {
 var visitorsCount int = 0
 
 func (vst *Visitor) Run() { // Any runner should have the Run method
-	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.GetSystemTime())
-
+	fmt.Printf(" %-6.3f \t Visitor # %v arrives \n", godes.GetSystemTime(), vst.number)
 }
 func main() {
 	var shutdown_time float64 = 8 * 60

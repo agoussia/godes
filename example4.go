@@ -39,7 +39,6 @@ func (machine *Machine) Run() {
 		if godes.GetSystemTime() > SHUT_DOWN_TIME {
 			break
 		}
-
 	}
 }
 
@@ -51,9 +50,7 @@ type MachineRepair struct {
 func (machineRepair *MachineRepair) Run() {
 	machine := machineRepair.machine
 	for {
-
 		godes.Advance(breaksGen.Get(1 / MTTF))
-
 		if machine.GetState() == godes.RUNNER_STATE_SCHEDULED {
 			breakTime := godes.GetSystemTime()
 			//interrupt machine
@@ -66,7 +63,6 @@ func (machineRepair *MachineRepair) Run() {
 			repairManAvailableSwt.Set(true)
 			//resume machine and change the scheduled time to compensate the idle time
 			godes.Resume(machine, godes.GetSystemTime()-breakTime)
-
 		}
 
 		if godes.GetSystemTime() > SHUT_DOWN_TIME {
@@ -76,7 +72,6 @@ func (machineRepair *MachineRepair) Run() {
 }
 
 func main() {
-
 	var m *Machine
 	x := make(map[int]*Machine)
 	for i := 0; i < NUM_MACHINES; i++ {
@@ -93,5 +88,4 @@ func main() {
 		m = x[i]
 		fmt.Printf(" Machine # %v %v \n", m.number, m.partsCount)
 	}
-
 }

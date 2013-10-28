@@ -51,15 +51,12 @@ func (waiter *Waiter) Run() {
 }
 
 func main() {
-
 	for runs := 0; runs < 5; runs++ {
 		for i := 0; i < 2; i++ {
 			godes.AddRunner(&Waiter{&godes.Runner{}, i})
 		}
 		godes.Run()
 		for {
-			//godes.Stime is the current simulation time
-
 			visitorArrivalQueue.Place(Visitor{visitorsCount})
 			waitersSwt.Set(true)
 			godes.Advance(arrival.Get(0, 30))

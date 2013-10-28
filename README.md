@@ -53,8 +53,7 @@ type Visitor struct {
 var visitorsCount int = 0
 
 func (vst *Visitor) Run() { // Any runner should have the Run method
-	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.GetSystemTime())
-
+	fmt.Printf(" %-6.3f \t Visitor # %v arrives \n", godes.GetSystemTime(), vst.number)
 }
 func main() {
 	var shutdown_time float64 = 8 * 60
@@ -76,19 +75,22 @@ func main() {
 }
 
 Results
-Visitor 0 arrives at time=  0.000 
-Visitor 1 arrives at time= 62.761 
-Visitor 2 arrives at time= 89.380 
-Visitor 3 arrives at time= 133.868 
-Visitor 4 arrives at time= 189.023 
-Visitor 5 arrives at time= 229.752 
-Visitor 6 arrives at time= 291.620 
-Visitor 7 arrives at time= 334.445 
-Visitor 8 arrives at time= 358.918 
-Visitor 9 arrives at time= 381.318 
-Visitor 10 arrives at time= 424.361 
-Visitor 11 arrives at time= 446.308 
+ 0.000  	 Visitor # 0 arrives 
+ 65.490 	 Visitor # 1 arrives 
+ 77.122 	 Visitor # 2 arrives 
+ 100.740 	 Visitor # 3 arrives 
+ 156.033 	 Visitor # 4 arrives 
+ 196.230 	 Visitor # 5 arrives 
+ 238.047 	 Visitor # 6 arrives 
+ 299.696 	 Visitor # 7 arrives 
+ 321.409 	 Visitor # 8 arrives 
+ 336.237 	 Visitor # 9 arrives 
+ 379.230 	 Visitor # 10 arrives 
+ 439.952 	 Visitor # 11 arrives 
+ 467.317 	 Visitor # 12 arrives 
 ```
+***
+
 ####Example 1.  Covers:  Boolean Controls####
 The restaurant has only one table to sit on. During the working day the visitors are entering the restaurant at random intervals
 and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
@@ -120,13 +122,13 @@ type Visitor struct {
 var visitorsCount int = 0
 
 func (vst Visitor) Run() { // Any runner should have the Run method
-	fmt.Printf("Visitor %v arrives at time= %6.3f \n", vst.number, godes.GetSystemTime())
+	fmt.Printf("%-6.3f \t Visitor %v arrives \n", godes.GetSystemTime(), vst.number)
 	tableBusy.Wait(false) // this will wait till the tableBusy control becomes false
 	tableBusy.Set(true)   // sets the tableBusy control to true - the table is busy
-	fmt.Printf("Visitor %v gets the table at time= %6.3f \n", vst.number, godes.GetSystemTime())
+	fmt.Printf("%-6.3f \t Visitor %v gets the table \n", godes.GetSystemTime(), vst.number)
 	godes.Advance(service.Get(10, 60)) //the function advance the simulation time by the value in the argument
 	tableBusy.Set(false)               // sets the tableBusy control to false - the table is idle
-	fmt.Printf("Visitor %v leaves at time= %6.3f \n", vst.number, godes.GetSystemTime())
+	fmt.Printf("%-6.3f \t Visitor %v leaves \n", godes.GetSystemTime(), vst.number)
 }
 func main() {
 	var shutdown_time float64 = 8 * 60
@@ -145,51 +147,49 @@ func main() {
 	godes.WaitUntilDone() // waits for all the runners to finish the Run()
 }
 
-
 Results
-Visitor 0 arrives at time=  0.000 
-Visitor 0 gets the table at time=  0.000 
-Visitor 0 leaves at time= 59.984 
-Visitor 1 arrives at time= 69.978 
-Visitor 1 gets the table at time= 69.978 
-Visitor 1 leaves at time= 129.261 
-Visitor 2 arrives at time= 138.974 
-Visitor 2 gets the table at time= 138.974 
-Visitor 3 arrives at time= 158.395 
-Visitor 2 leaves at time= 162.846 
-Visitor 3 gets the table at time= 162.846 
-Visitor 4 arrives at time= 172.806 
-Visitor 5 arrives at time= 180.486 
-Visitor 3 leaves at time= 183.140 
-Visitor 4 gets the table at time= 183.140 
-Visitor 4 leaves at time= 198.625 
-Visitor 5 gets the table at time= 198.625 
-Visitor 6 arrives at time= 228.787 
-Visitor 5 leaves at time= 243.126 
-Visitor 6 gets the table at time= 243.126 
-Visitor 7 arrives at time= 275.738 
-Visitor 6 leaves at time= 286.662 
-Visitor 7 gets the table at time= 286.662 
-Visitor 8 arrives at time= 316.774 
-Visitor 7 leaves at time= 325.974 
-Visitor 8 gets the table at time= 325.974 
-Visitor 9 arrives at time= 366.170 
-Visitor 8 leaves at time= 371.257 
-Visitor 9 gets the table at time= 371.257 
-Visitor 10 arrives at time= 377.635 
-Visitor 11 arrives at time= 385.511 
-Visitor 9 leaves at time= 389.446 
-Visitor 10 gets the table at time= 389.446 
-Visitor 10 leaves at time= 405.072 
-Visitor 11 gets the table at time= 405.072 
-Visitor 12 arrives at time= 430.294 
-Visitor 11 leaves at time= 447.059 
-Visitor 12 gets the table at time= 447.059 
-Visitor 13 arrives at time= 447.493 
-Visitor 12 leaves at time= 469.345 
-Visitor 13 gets the table at time= 469.345 
-Visitor 13 leaves at time= 519.771 
+0.000  	 	Visitor 0 arrives 
+0.000  	 	Visitor 0 gets the table 
+33.668 	 	Visitor 0 leaves 
+64.166 	 	Visitor 1 arrives 
+64.166 	 	Visitor 1 gets the table 
+71.445 	 	Visitor 2 arrives 
+103.401 	 Visitor 1 leaves 
+103.401 	 Visitor 2 gets the table 
+121.797 	 Visitor 3 arrives 
+144.534 	 Visitor 2 leaves 
+144.534 	 Visitor 3 gets the table 
+150.740 	 Visitor 4 arrives 
+184.333 	 Visitor 3 leaves 
+184.333 	 Visitor 4 gets the table 
+197.497 	 Visitor 4 leaves 
+212.729 	 Visitor 5 arrives 
+212.729 	 Visitor 5 gets the table 
+264.648 	 Visitor 6 arrives 
+272.160 	 Visitor 5 leaves 
+272.160 	 Visitor 6 gets the table 
+294.490 	 Visitor 7 arrives 
+321.236 	 Visitor 6 leaves 
+321.236 	 Visitor 7 gets the table 
+321.964 	 Visitor 8 arrives 
+353.377 	 Visitor 7 leaves 
+353.377 	 Visitor 8 gets the table 
+354.954 	 Visitor 9 arrives 
+360.047 	 Visitor 10 arrives 
+361.397 	 Visitor 11 arrives 
+405.146 	 Visitor 8 leaves 
+405.146 	 Visitor 9 gets the table 
+429.129 	 Visitor 12 arrives 
+453.826 	 Visitor 9 leaves 
+453.826 	 Visitor 12 gets the table 
+476.401 	 Visitor 12 leaves 
+476.401 	 Visitor 10 gets the table 
+488.002 	 Visitor 10 leaves 
+488.002 	 Visitor 11 gets the table 
+501.840 	 Visitor 11 leaves 
 ```
+***
+
 ####Example 2.  Covers:  Queues####
 During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue. 
 The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes. 
@@ -240,13 +240,13 @@ func (waiter *Waiter) Run() {
 			if visitorArrivalQueue.Len() == 0 {
 				waitersSwt.Set(false)
 			}
-			fmt.Printf("Visitor %v is invited by waiter %v at %6.3f \n", visitor.(Visitor).id, waiter.id, godes.GetSystemTime())
+			fmt.Printf("%-6.3f \t Visitor %v is invited by waiter %v  \n", godes.GetSystemTime(), visitor.(Visitor).id, waiter.id)
 			godes.Advance(service.Get(10, 60)) //advance the simulation time by the visitor service time
-			fmt.Printf("Visitor %v leaves at= %6.3f \n", visitor.(Visitor).id, godes.GetSystemTime())
+			fmt.Printf("%-6.3f \t Visitor %v leaves \n", godes.GetSystemTime(), visitor.(Visitor).id)
 
 		}
 		if godes.GetSystemTime() > shutdown_time && visitorArrivalQueue.Len() == 0 {
-			fmt.Printf("Waiter  %v ends the work at %6.3f \n", waiter.id, godes.GetSystemTime())
+			fmt.Printf("%-6.3f \t Waiter  %v ends the work \n", godes.GetSystemTime(), waiter.id)
 			break
 		}
 	}
@@ -254,7 +254,6 @@ func (waiter *Waiter) Run() {
 
 func main() {
 
-	var visitor Visitor
 	for i := 0; i < 2; i++ {
 		godes.AddRunner(&Waiter{&godes.Runner{}, i})
 	}
@@ -262,7 +261,7 @@ func main() {
 	for {
 
 		visitorArrivalQueue.Place(Visitor{visitorsCount})
-		fmt.Printf("Visitor %v arrives at time= %6.3f \n", visitor.id, godes.GetSystemTime())
+		fmt.Printf("%-6.3f \t Visitor %v arrives \n", godes.GetSystemTime(), visitorsCount)
 		waitersSwt.Set(true)
 		godes.Advance(arrival.Get(0, 30))
 		visitorsCount++
@@ -274,56 +273,70 @@ func main() {
 	godes.WaitUntilDone() // waits for all the runners to finish the Run()
 	fmt.Printf("Average Waiting Time %6.3f  \n", visitorArrivalQueue.GetAverageTime())
 }
-
-
-
 Results
-Visitor 0 arrives at time=  0.000 
-Visitor 0 is invited by waiter 0 at  0.000 
-Visitor 0 arrives at time= 20.748 
-Visitor 1 is invited by waiter 1 at 20.748 
-Visitor 0 arrives at time= 43.495 
-Visitor 0 leaves at= 44.579 
-Visitor 2 is invited by waiter 0 at 44.579 
-Visitor 0 arrives at time= 44.983 
-Visitor 2 leaves at= 57.059 
-Visitor 3 is invited by waiter 0 at 57.059 
-Visitor 0 arrives at time= 60.895 
-Visitor 1 leaves at= 68.661 
-Visitor 4 is invited by waiter 1 at 68.661 
-Visitor 0 arrives at time= 90.616 
-Visitor 0 arrives at time= 91.911 
-Visitor 3 leaves at= 93.579 
-Visitor 5 is invited by waiter 0 at 93.579 
-Visitor 5 leaves at= 105.738 
-Visitor 6 is invited by waiter 0 at 105.738 
-Visitor 0 arrives at time= 109.690 
-Visitor 0 arrives at time= 125.536 
-Visitor 4 leaves at= 128.195 
-Visitor 7 is invited by waiter 1 at 128.195 
-Visitor 6 leaves at= 145.370 
-Visitor 8 is invited by waiter 0 at 145.370 
-Visitor 0 arrives at time= 155.007 
-Visitor 0 arrives at time= 163.835 
-Visitor 7 leaves at= 164.604 
-Visitor 9 is invited by waiter 1 at 164.604 
-Visitor 0 arrives at time= 165.978 
-Visitor 9 leaves at= 189.317 
-Visitor 10 is invited by waiter 1 at 189.317 
-Visitor 0 arrives at time= 194.411 
-Visitor 10 leaves at= 202.889 
-Visitor 11 is invited by waiter 1 at 202.889 
-Visitor 8 leaves at= 204.489 
-Visitor 12 is invited by waiter 0 at 204.489 
-Visitor 0 arrives at time= 217.891 
-Visitor 12 leaves at= 253.621 
-Visitor 13 is invited by waiter 0 at 253.621 
-Visitor 11 leaves at= 260.278 
-Waiter  1 ends the work at 260.278 
-Visitor 13 leaves at= 312.358 
-Waiter  0 ends the work at 312.358 
-Average Waiting Time 13.847 
+0.000  	 	Visitor 0 arrives 
+0.000  	 	Visitor 0 is invited by waiter 0  
+5.333  	 	Visitor 1 arrives 
+5.333  	 	Visitor 1 is invited by waiter 1  
+19.893 	 	Visitor 1 leaves 
+26.236 	 	Visitor 2 arrives 
+26.236 	 	Visitor 2 is invited by waiter 1  
+46.823 	 	Visitor 0 leaves 
+52.189 	 	Visitor 3 arrives 
+52.189 	 	Visitor 3 is invited by waiter 0  
+61.310 	 	Visitor 2 leaves 
+64.796 	 	Visitor 4 arrives 
+64.796 	 	Visitor 4 is invited by waiter 1  
+73.180 	 	Visitor 5 arrives 
+76.037 	 	Visitor 6 arrives 
+89.228 	 	Visitor 7 arrives 
+92.261 	 	Visitor 3 leaves 
+92.261 	 	Visitor 5 is invited by waiter 0  
+96.226 	 	Visitor 8 arrives 
+109.172 	 Visitor 4 leaves 
+109.172 	 Visitor 6 is invited by waiter 1  
+118.855 	 Visitor 5 leaves 
+118.855 	 Visitor 7 is invited by waiter 0  
+121.444 	 Visitor 9 arrives 
+141.457 	 Visitor 10 arrives 
+149.288 	 Visitor 7 leaves 
+149.288 	 Visitor 8 is invited by waiter 0  
+151.889 	 Visitor 11 arrives 
+160.821 	 Visitor 6 leaves 
+160.821 	 Visitor 9 is invited by waiter 1  
+169.579 	 Visitor 8 leaves 
+169.579 	 Visitor 10 is invited by waiter 0  
+173.890 	 Visitor 12 arrives 
+187.193 	 Visitor 13 arrives 
+189.220 	 Visitor 9 leaves 
+189.220 	 Visitor 11 is invited by waiter 1  
+198.068 	 Visitor 14 arrives 
+208.362 	 Visitor 10 leaves 
+208.362 	 Visitor 12 is invited by waiter 0  
+211.847 	 Visitor 15 arrives 
+221.005 	 Visitor 16 arrives 
+229.585 	 Visitor 17 arrives 
+230.239 	 Visitor 18 arrives 
+232.081 	 Visitor 11 leaves 
+232.081 	 Visitor 13 is invited by waiter 1  
+263.779 	 Visitor 12 leaves 
+263.779 	 Visitor 14 is invited by waiter 0  
+264.924 	 Visitor 13 leaves 
+264.924 	 Visitor 15 is invited by waiter 1  
+277.866 	 Visitor 15 leaves 
+277.866 	 Visitor 16 is invited by waiter 1  
+303.579 	 Visitor 16 leaves 
+303.579 	 Visitor 17 is invited by waiter 1  
+310.750 	 Visitor 14 leaves 
+310.750 	 Visitor 18 is invited by waiter 0  
+325.254 	 Visitor 17 leaves 
+325.254 	 Waiter  1 ends the work 
+351.524 	 Visitor 18 leaves 
+351.524 	 Waiter  0 ends the work 
+Average Waiting Time 34.171  
 ```
+***
+
 ####Example 3.  Covers: Multiple Runs####
 
 ```go
@@ -377,15 +390,12 @@ func (waiter *Waiter) Run() {
 }
 
 func main() {
-
 	for runs := 0; runs < 5; runs++ {
 		for i := 0; i < 2; i++ {
 			godes.AddRunner(&Waiter{&godes.Runner{}, i})
 		}
 		godes.Run()
 		for {
-			//godes.Stime is the current simulation time
-
 			visitorArrivalQueue.Place(Visitor{visitorsCount})
 			waitersSwt.Set(true)
 			godes.Advance(arrival.Get(0, 30))
@@ -407,13 +417,16 @@ func main() {
 	}
 }
 
+
 Results
- Run # 0 Average Waiting Time 17.461  
- Run # 1 Average Waiting Time 22.264  
- Run # 2 Average Waiting Time 14.501  
- Run # 3 Average Waiting Time 20.446  
- Run # 4 Average Waiting Time 11.195  
+ Run # 0   Average Time=67.804   
+ Run # 1   Average Time=58.378   
+ Run # 2   Average Time=25.189   
+ Run # 3   Average Time=13.909   
+ Run # 4   Average Time=50.269   
 ```
+***
+
 ####Example 4.  Machine Shop (Covers: Interrupt and Resume) ####
 A workshop has *n* identical machines. A stream of jobs (enough to
 keep the machines busy) arrives. Each machine breaks down
@@ -460,7 +473,6 @@ func (machine *Machine) Run() {
 		if godes.GetSystemTime() > SHUT_DOWN_TIME {
 			break
 		}
-
 	}
 }
 
@@ -472,9 +484,7 @@ type MachineRepair struct {
 func (machineRepair *MachineRepair) Run() {
 	machine := machineRepair.machine
 	for {
-
 		godes.Advance(breaksGen.Get(1 / MTTF))
-
 		if machine.GetState() == godes.RUNNER_STATE_SCHEDULED {
 			breakTime := godes.GetSystemTime()
 			//interrupt machine
@@ -487,7 +497,6 @@ func (machineRepair *MachineRepair) Run() {
 			repairManAvailableSwt.Set(true)
 			//resume machine and change the scheduled time to compensate the idle time
 			godes.Resume(machine, godes.GetSystemTime()-breakTime)
-
 		}
 
 		if godes.GetSystemTime() > SHUT_DOWN_TIME {
@@ -497,7 +506,6 @@ func (machineRepair *MachineRepair) Run() {
 }
 
 func main() {
-
 	var m *Machine
 	x := make(map[int]*Machine)
 	for i := 0; i < NUM_MACHINES; i++ {
@@ -514,22 +522,22 @@ func main() {
 		m = x[i]
 		fmt.Printf(" Machine # %v %v \n", m.number, m.partsCount)
 	}
-
 }
 
-
 Results
- Machine # 0 3636 
- Machine # 1 3635 
- Machine # 2 3643 
- Machine # 3 3634 
- Machine # 4 3652 
- Machine # 5 3590 
- Machine # 6 3593 
- Machine # 7 3662 
- Machine # 8 3664 
- Machine # 9 3618  
+Machine # 0 3690 
+ Machine # 1 3661 
+ Machine # 2 3653 
+ Machine # 3 3622 
+ Machine # 4 3658 
+ Machine # 5 3628 
+ Machine # 6 3670 
+ Machine # 7 3521 
+ Machine # 8 3610 
+ Machine # 9 3659 
 ```
+***
+
 ####Example 5.  Bank Renege (Covers: Wait with timeout) ####
 This example models a bank counter and customers arriving at random times. Each customer has a certain patience. It waits to get to the counter until she’s at the end of her tether. If she gets to the counter, she uses it for a while before releasing it.
 
@@ -614,3 +622,4 @@ Results
  40.964  	Customer 4 : Waited  0.000 
  42.849 	Customer 4 : Finished 
 ```
+***
