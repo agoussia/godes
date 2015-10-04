@@ -623,3 +623,284 @@ Results
  42.849 	Customer 4 : Finished 
 ```
 ***
+
+####Example 6.  Bank - Single Run (Covers: FIFO Queue, Parallel Resources, Collection and processing of statistics) ####
+######Procces Description######
+A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours. The simulation is ended when the last customer has been served.
+######Task######
+Execute single simulation run, calculate Average, Standard Deviation,
+confidence intervall lower and upper bounds,minimum and Maximum for the
+following performance measures: total elapsed time, queue length, queueing time
+service time.
+######Model Features:######
+* **FIFO Queue.** The customer object is placed in the FIFO arrival queue as soon as the customer is created.
+* **Parallel Resources.**The application constructs Tellers object to model tellers as a set of resources.
+The object 'provides' tellers to the customer located in the Queue head and "releases" the teller when customer is serviced.
+Maximum 3 tellers can be provided simultaneously.
+The interlocking between catching request is performed using godes BooleanControl object.
+* **Collection and processing of statistics**.While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollection object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
+	*Observ - number of observations
+	*Average - average (mean) value
+	*Std Dev- standard deviation
+	*L-Bound-lower bound of the confidence interval  with 95% probability
+	*U-Bound-upper bound of the confidence interval  with 95% probability
+	*Minimum- minimum value
+	*Maximum- maximum value
+```go
+	// Copyright 2015 Alex Goussiatiner. All rights reserved.
+	// Use of this source code is governed by a MIT
+	// license that can be found in the LICENSE file.
+	package main
+	/*
+	Procces Description:
+	====================
+	A bank employs three tellers and the customers form a queue for all three tellers.
+	The doors of the bank close after eight hours.
+	The simulation is ended when the last customer has been served.
+	*/
+
+	import (
+		"fmt"
+		"godes"
+	)
+	//Input Parameters
+	const (
+		ARRIVAL_INTERVAL = 0.5
+		SERVICE_TIME = 1.3
+		SHUTDOWN_TIME = 8 * 60.
+	)
+	// the arrival and service are two random number generators for the exponential  distribution
+	var arrival *godes.ExpDistr = godes.NewExpDistr()
+	var service *godes.ExpDistr = godes.NewExpDistr()
+	// true when any counter is available
+	var counterSwt *godes.BooleanControl = godes.NewBooleanControl()
+	// FIFO Queue for the arrived customers
+	var customerArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue("0")
+
+
+	var tellers *Tellers
+	var measures [][]float64
+	var titles = []string{
+		"Elapsed Time",
+		"Queue Length",
+		"Queueing Time",
+		"Service Time",
+	}
+
+	var availableTellers int = 0;
+	// the Tellers is a Passive Object represebting resource
+	type Tellers struct {
+		max     int
+	}
+
+	func (tellers *Tellers) Catch(customer *Customer) {
+		for {
+			counterSwt.Wait(true)
+			if customerArrivalQueue.GetHead().(*Customer).GetId() == customer.GetId() {
+				break
+			} else {
+				godes.Yield()
+			}
+		}
+		availableTellers++
+		if availableTellers == tellers.max {
+			counterSwt.Set(false)
+		}
+	}
+
+	func (tellers *Tellers) Release() {
+		availableTellers--
+		counterSwt.Set(true)
+	}
+
+	// the Customer is a Runner
+	type Customer struct {
+		*godes.Runner
+		id int
+	}
+
+	func (customer *Customer) Run() {
+		a0 := godes.GetSystemTime()
+		tellers.Catch(customer)
+		a1 := godes.GetSystemTime()
+		customerArrivalQueue.Get()
+		qlength := float64(customerArrivalQueue.Len())
+		godes.Advance(service.Get(1. / SERVICE_TIME))
+		a2 := godes.GetSystemTime()
+		tellers.Release()
+		collectionArray := []float64{a2 - a0, qlength, a1 - a0, a2 - a1}
+		measures = append(measures, collectionArray)
+	}
+	func main() {
+		measures = [][]float64{}
+		tellers = &Tellers{3}
+		godes.Run()
+		counterSwt.Set(true)
+		count := 0
+		for {
+			customer := &Customer{&godes.Runner{}, count}
+			customerArrivalQueue.Place(customer)
+			godes.AddRunner(customer)
+			godes.Advance(arrival.Get(1. / ARRIVAL_INTERVAL))
+			if godes.GetSystemTime() > SHUTDOWN_TIME {
+				break
+			}
+			count++
+		}
+		godes.WaitUntilDone() // waits for all the runners to finish the Run()
+		collector := godes.NewStatCollector(titles, measures)
+		collector.PrintStat()
+		fmt.Printf("Finished \n")
+	}
+
+Results
+Variable		#	Aver.	Std Dev	L-Bound	U-Bound	Minimum	Maximum
+Elapsed Time	999	 3.965	 3.700	 3.736	 4.195	 0.002	17.343
+Queue Length	999	 5.248	 7.573	 4.779	 5.718	 0.000	30.000
+Queueing Time	999	 2.647	 3.467	 2.432	 2.862	 0.000	14.122
+Service Time	999	 1.319	 1.295	 1.238	 1.399	 0.001	 8.617 
+```
+####Example 7.  Bank - Multiple Runs (Covers: FIFO Queue, Parallel Resources, Collection and processing of statistics) ####
+######Procces Description######
+A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours. The simulation is ended when the last customer has been served.
+######Task######
+Execute multiple simulation runs, calculate Average, Standard Deviation, 
+confidence intervall lower and upper bounds,minimum	 and Maximum for the
+following performance measures: total elapsed time, queue length, queueing time, service time.
+```go
+// Copyright 2015 Alex Goussiatiner. All rights reserved.
+// Use of this source code is governed by a MIT
+// license that can be found in the LICENSE file.
+package main
+
+/*
+Procces Description:
+===================
+A bank employs three tellers and the customers form a queue for all three tellers.
+The doors of the bank close after eight hours.
+The simulation is ended when the last customer has been served.
+*/
+
+import (
+	"fmt"
+	"godes"
+
+)
+
+//Input Parameters
+const (
+	ARRIVAL_INTERVAL = 0.5
+	SERVICE_TIME     = 1.3
+	SHUTDOWN_TIME    = 8 * 60.
+	INDEPENDENT_RUNS = 100
+)
+
+// the arrival and service are two random number generators for the exponential  distribution
+var arrival *godes.ExpDistr = godes.NewExpDistr()
+var service *godes.ExpDistr = godes.NewExpDistr()
+
+// true when any counter is available
+var counterSwt *godes.BooleanControl = godes.NewBooleanControl()
+
+// FIFO Queue for the arrived customers
+var customerArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue("0")
+
+var tellers *Tellers
+var statistics [][]float64
+var replicationStats [][]float64
+var titles = []string{
+	"Elapsed Time",
+	"Queue Length",
+	"Queueing Time",
+	"Service Time",
+}
+
+var availableTellers int = 0
+
+// the Tellers is a Passive Object represebting resource
+type Tellers struct {
+	max int
+}
+
+func (tellers *Tellers) Catch(customer *Customer) {
+	for {
+		counterSwt.Wait(true)
+		if customerArrivalQueue.GetHead().(*Customer).GetId() == customer.GetId() {
+			break
+		} else {
+			godes.Yield()
+		}
+	}
+	availableTellers++
+	if availableTellers == tellers.max {
+		counterSwt.Set(false)
+	}
+}
+
+func (tellers *Tellers) Release() {
+	availableTellers--
+	counterSwt.Set(true)
+}
+
+// the Customer is a Runner
+type Customer struct {
+	*godes.Runner
+	id int
+}
+
+func (customer *Customer) Run() {
+	a0 := godes.GetSystemTime()
+	tellers.Catch(customer)
+	a1 := godes.GetSystemTime()
+	customerArrivalQueue.Get()
+	qlength := float64(customerArrivalQueue.Len())
+	godes.Advance(service.Get(1. / SERVICE_TIME))
+	a2 := godes.GetSystemTime()
+	tellers.Release()
+	collectionArray := []float64{a2 - a0, qlength, a1 - a0, a2 - a1}
+	replicationStats = append(replicationStats, collectionArray)
+}
+func main() {
+	statistics = [][]float64{}
+
+	tellers = &Tellers{3}
+	for i := 0; i < INDEPENDENT_RUNS; i++ {
+		replicationStats = [][]float64{}
+		godes.Run()
+		counterSwt.Set(true)
+		customerArrivalQueue.Clear()
+		count := 0
+		for {
+			customer := &Customer{&godes.Runner{}, count}
+			customerArrivalQueue.Place(customer)
+			godes.AddRunner(customer)
+			godes.Advance(arrival.Get(1. / ARRIVAL_INTERVAL))
+			if godes.GetSystemTime() > SHUTDOWN_TIME {
+				break
+			}
+			count++
+		}
+		godes.WaitUntilDone() // waits for all the runners to finish the Run()
+		godes.Clear()
+		replicationCollector := godes.NewStatCollector(titles, replicationStats)
+
+		collectionArray := []float64{
+			replicationCollector.GetAverage(0),
+			replicationCollector.GetAverage(1),
+			replicationCollector.GetAverage(2),
+			replicationCollector.GetAverage(3),
+		}
+		statistics = append(statistics, collectionArray)
+	}
+
+	collector := godes.NewStatCollector(titles, statistics)
+	collector.PrintStat()
+	fmt.Printf("Finished \n")
+}
+Results
+Variable		#	Aver.	Std Dev	L-Bound	U-Bound	Minimum	Maximum
+Elapsed Time	100	 3.507	 0.929	 3.325	 3.689	 2.210	 6.295
+Queue Length	100	 4.367	 1.930	 3.989	 4.746	 1.688	10.864
+Queueing Time	100	 2.210	 0.907	 2.032	 2.388	 0.945	 4.975
+Service Time	100	 1.297	 0.037	 1.290	 1.304	 1.215	 1.372
+```
