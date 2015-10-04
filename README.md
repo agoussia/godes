@@ -2,7 +2,7 @@
 
 Libriary to Build Discrete Event Simulation Models in Go (http://golang.org/)
 
-Copyright (c) 2013 Alex Goussiatiner agoussia@yahoo.com
+Copyright (c) 2013, 2015 Alex Goussiatiner agoussia@yahoo.com
 
 ###Features###
 Godes is the general-purpose simulation library which includes the  simulation engine  and building blocks for modeling a wide variety of systems at varying levels of detail.
@@ -75,19 +75,19 @@ func main() {
 }
 
 Results
- 0.000  	 Visitor # 0 arrives 
- 65.490 	 Visitor # 1 arrives 
- 77.122 	 Visitor # 2 arrives 
- 100.740 	 Visitor # 3 arrives 
- 156.033 	 Visitor # 4 arrives 
- 196.230 	 Visitor # 5 arrives 
- 238.047 	 Visitor # 6 arrives 
- 299.696 	 Visitor # 7 arrives 
- 321.409 	 Visitor # 8 arrives 
- 336.237 	 Visitor # 9 arrives 
- 379.230 	 Visitor # 10 arrives 
- 439.952 	 Visitor # 11 arrives 
- 467.317 	 Visitor # 12 arrives 
+ 0.000  	 Visitor # 0 arrives
+ 65.490 	 Visitor # 1 arrives
+ 77.122 	 Visitor # 2 arrives
+ 100.740 	 Visitor # 3 arrives
+ 156.033 	 Visitor # 4 arrives
+ 196.230 	 Visitor # 5 arrives
+ 238.047 	 Visitor # 6 arrives
+ 299.696 	 Visitor # 7 arrives
+ 321.409 	 Visitor # 8 arrives
+ 336.237 	 Visitor # 9 arrives
+ 379.230 	 Visitor # 10 arrives
+ 439.952 	 Visitor # 11 arrives
+ 467.317 	 Visitor # 12 arrives
 ```
 ***
 
@@ -148,55 +148,55 @@ func main() {
 }
 
 Results
-0.000  	 	Visitor 0 arrives 
-0.000  	 	Visitor 0 gets the table 
-33.668 	 	Visitor 0 leaves 
-64.166 	 	Visitor 1 arrives 
-64.166 	 	Visitor 1 gets the table 
-71.445 	 	Visitor 2 arrives 
-103.401 	 Visitor 1 leaves 
-103.401 	 Visitor 2 gets the table 
-121.797 	 Visitor 3 arrives 
-144.534 	 Visitor 2 leaves 
-144.534 	 Visitor 3 gets the table 
-150.740 	 Visitor 4 arrives 
-184.333 	 Visitor 3 leaves 
-184.333 	 Visitor 4 gets the table 
-197.497 	 Visitor 4 leaves 
-212.729 	 Visitor 5 arrives 
-212.729 	 Visitor 5 gets the table 
-264.648 	 Visitor 6 arrives 
-272.160 	 Visitor 5 leaves 
-272.160 	 Visitor 6 gets the table 
-294.490 	 Visitor 7 arrives 
-321.236 	 Visitor 6 leaves 
-321.236 	 Visitor 7 gets the table 
-321.964 	 Visitor 8 arrives 
-353.377 	 Visitor 7 leaves 
-353.377 	 Visitor 8 gets the table 
-354.954 	 Visitor 9 arrives 
-360.047 	 Visitor 10 arrives 
-361.397 	 Visitor 11 arrives 
-405.146 	 Visitor 8 leaves 
-405.146 	 Visitor 9 gets the table 
-429.129 	 Visitor 12 arrives 
-453.826 	 Visitor 9 leaves 
-453.826 	 Visitor 12 gets the table 
-476.401 	 Visitor 12 leaves 
-476.401 	 Visitor 10 gets the table 
-488.002 	 Visitor 10 leaves 
-488.002 	 Visitor 11 gets the table 
-501.840 	 Visitor 11 leaves 
+0.000  	 	Visitor 0 arrives
+0.000  	 	Visitor 0 gets the table
+33.668 	 	Visitor 0 leaves
+64.166 	 	Visitor 1 arrives
+64.166 	 	Visitor 1 gets the table
+71.445 	 	Visitor 2 arrives
+103.401 	 Visitor 1 leaves
+103.401 	 Visitor 2 gets the table
+121.797 	 Visitor 3 arrives
+144.534 	 Visitor 2 leaves
+144.534 	 Visitor 3 gets the table
+150.740 	 Visitor 4 arrives
+184.333 	 Visitor 3 leaves
+184.333 	 Visitor 4 gets the table
+197.497 	 Visitor 4 leaves
+212.729 	 Visitor 5 arrives
+212.729 	 Visitor 5 gets the table
+264.648 	 Visitor 6 arrives
+272.160 	 Visitor 5 leaves
+272.160 	 Visitor 6 gets the table
+294.490 	 Visitor 7 arrives
+321.236 	 Visitor 6 leaves
+321.236 	 Visitor 7 gets the table
+321.964 	 Visitor 8 arrives
+353.377 	 Visitor 7 leaves
+353.377 	 Visitor 8 gets the table
+354.954 	 Visitor 9 arrives
+360.047 	 Visitor 10 arrives
+361.397 	 Visitor 11 arrives
+405.146 	 Visitor 8 leaves
+405.146 	 Visitor 9 gets the table
+429.129 	 Visitor 12 arrives
+453.826 	 Visitor 9 leaves
+453.826 	 Visitor 12 gets the table
+476.401 	 Visitor 12 leaves
+476.401 	 Visitor 10 gets the table
+488.002 	 Visitor 10 leaves
+488.002 	 Visitor 11 gets the table
+501.840 	 Visitor 11 leaves
 ```
 ***
 
 ####Example 2.  Covers:  Queues####
-During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue. 
-The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes. 
-The simulation itself is terminated when 
-* Simulation time passes the four hours 
+During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue.
+The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes.
+The simulation itself is terminated when
+* Simulation time passes the four hours
 * Both waiters have finished servicing  
-* There is no visitors in the arrival queue. 
+* There is no visitors in the arrival queue.
 
 The model  calculates the average (arithmetic mean) of  the visitors waiting time
 ```go
@@ -274,71 +274,71 @@ func main() {
 	fmt.Printf("Average Waiting Time %6.3f  \n", visitorArrivalQueue.GetAverageTime())
 }
 Results
-0.000  	 	Visitor 0 arrives 
+0.000  	 	Visitor 0 arrives
 0.000  	 	Visitor 0 is invited by waiter 0  
-5.333  	 	Visitor 1 arrives 
+5.333  	 	Visitor 1 arrives
 5.333  	 	Visitor 1 is invited by waiter 1  
-19.893 	 	Visitor 1 leaves 
-26.236 	 	Visitor 2 arrives 
+19.893 	 	Visitor 1 leaves
+26.236 	 	Visitor 2 arrives
 26.236 	 	Visitor 2 is invited by waiter 1  
-46.823 	 	Visitor 0 leaves 
-52.189 	 	Visitor 3 arrives 
+46.823 	 	Visitor 0 leaves
+52.189 	 	Visitor 3 arrives
 52.189 	 	Visitor 3 is invited by waiter 0  
-61.310 	 	Visitor 2 leaves 
-64.796 	 	Visitor 4 arrives 
+61.310 	 	Visitor 2 leaves
+64.796 	 	Visitor 4 arrives
 64.796 	 	Visitor 4 is invited by waiter 1  
-73.180 	 	Visitor 5 arrives 
-76.037 	 	Visitor 6 arrives 
-89.228 	 	Visitor 7 arrives 
-92.261 	 	Visitor 3 leaves 
+73.180 	 	Visitor 5 arrives
+76.037 	 	Visitor 6 arrives
+89.228 	 	Visitor 7 arrives
+92.261 	 	Visitor 3 leaves
 92.261 	 	Visitor 5 is invited by waiter 0  
-96.226 	 	Visitor 8 arrives 
-109.172 	 Visitor 4 leaves 
+96.226 	 	Visitor 8 arrives
+109.172 	 Visitor 4 leaves
 109.172 	 Visitor 6 is invited by waiter 1  
-118.855 	 Visitor 5 leaves 
+118.855 	 Visitor 5 leaves
 118.855 	 Visitor 7 is invited by waiter 0  
-121.444 	 Visitor 9 arrives 
-141.457 	 Visitor 10 arrives 
-149.288 	 Visitor 7 leaves 
+121.444 	 Visitor 9 arrives
+141.457 	 Visitor 10 arrives
+149.288 	 Visitor 7 leaves
 149.288 	 Visitor 8 is invited by waiter 0  
-151.889 	 Visitor 11 arrives 
-160.821 	 Visitor 6 leaves 
+151.889 	 Visitor 11 arrives
+160.821 	 Visitor 6 leaves
 160.821 	 Visitor 9 is invited by waiter 1  
-169.579 	 Visitor 8 leaves 
+169.579 	 Visitor 8 leaves
 169.579 	 Visitor 10 is invited by waiter 0  
-173.890 	 Visitor 12 arrives 
-187.193 	 Visitor 13 arrives 
-189.220 	 Visitor 9 leaves 
+173.890 	 Visitor 12 arrives
+187.193 	 Visitor 13 arrives
+189.220 	 Visitor 9 leaves
 189.220 	 Visitor 11 is invited by waiter 1  
-198.068 	 Visitor 14 arrives 
-208.362 	 Visitor 10 leaves 
+198.068 	 Visitor 14 arrives
+208.362 	 Visitor 10 leaves
 208.362 	 Visitor 12 is invited by waiter 0  
-211.847 	 Visitor 15 arrives 
-221.005 	 Visitor 16 arrives 
-229.585 	 Visitor 17 arrives 
-230.239 	 Visitor 18 arrives 
-232.081 	 Visitor 11 leaves 
+211.847 	 Visitor 15 arrives
+221.005 	 Visitor 16 arrives
+229.585 	 Visitor 17 arrives
+230.239 	 Visitor 18 arrives
+232.081 	 Visitor 11 leaves
 232.081 	 Visitor 13 is invited by waiter 1  
-263.779 	 Visitor 12 leaves 
+263.779 	 Visitor 12 leaves
 263.779 	 Visitor 14 is invited by waiter 0  
-264.924 	 Visitor 13 leaves 
+264.924 	 Visitor 13 leaves
 264.924 	 Visitor 15 is invited by waiter 1  
-277.866 	 Visitor 15 leaves 
+277.866 	 Visitor 15 leaves
 277.866 	 Visitor 16 is invited by waiter 1  
-303.579 	 Visitor 16 leaves 
+303.579 	 Visitor 16 leaves
 303.579 	 Visitor 17 is invited by waiter 1  
-310.750 	 Visitor 14 leaves 
+310.750 	 Visitor 14 leaves
 310.750 	 Visitor 18 is invited by waiter 0  
-325.254 	 Visitor 17 leaves 
-325.254 	 Waiter  1 ends the work 
-351.524 	 Visitor 18 leaves 
-351.524 	 Waiter  0 ends the work 
+325.254 	 Visitor 17 leaves
+325.254 	 Waiter  1 ends the work
+351.524 	 Visitor 18 leaves
+351.524 	 Waiter  0 ends the work
 Average Waiting Time 34.171  
 ```
 ***
 
 ####Example 3.  Covers: Multiple Runs####
-
+The same simulation scenario as for the example 3 repeats five times
 ```go
 package main
 
@@ -525,16 +525,16 @@ func main() {
 }
 
 Results
-Machine # 0 3690 
- Machine # 1 3661 
- Machine # 2 3653 
- Machine # 3 3622 
- Machine # 4 3658 
- Machine # 5 3628 
- Machine # 6 3670 
- Machine # 7 3521 
- Machine # 8 3610 
- Machine # 9 3659 
+Machine # 0 3690
+ Machine # 1 3661
+ Machine # 2 3653
+ Machine # 3 3622
+ Machine # 4 3658
+ Machine # 5 3628
+ Machine # 6 3670
+ Machine # 7 3521
+ Machine # 8 3610
+ Machine # 9 3659
 ```
 ***
 
@@ -608,18 +608,158 @@ func main() {
 
 Results
   0.000  	Customer 0 : Here I am   My patience= 1.208  
-  0.000   	Customer 0 : Waited  0.000 
-  4.135  	Customer 0 : Finished 
+  0.000   	Customer 0 : Waited  0.000
+  4.135  	Customer 0 : Finished
  13.514  	Customer 1 : Here I am   My patience= 2.473  
- 13.514  	Customer 1 : Waited  0.000 
+ 13.514  	Customer 1 : Waited  0.000
  18.172  	Customer 2 : Here I am   My patience= 1.980  
- 19.749  	Customer 1 : Finished 
- 19.749  	Customer 2 : Waited  1.576 
+ 19.749  	Customer 1 : Finished
+ 19.749  	Customer 2 : Waited  1.576
  24.204  	Customer 3 : Here I am   My patience= 2.795  
- 26.999  	Customer 3 : RENEGED after   2.795 
- 27.836  	Customer 2 : Finished 
+ 26.999  	Customer 3 : RENEGED after   2.795
+ 27.836  	Customer 2 : Finished
  40.964  	Customer 4 : Here I am   My patience= 2.090  
- 40.964  	Customer 4 : Waited  0.000 
- 42.849 	Customer 4 : Finished 
-```
-***
+ 40.964  	Customer 4 : Waited  0.000
+ 42.849 	Customer 4 : Finished
+ ```
+ ***
+####Example 6.  Bank - Single Run (Covers: FIFO Queue, Parallel Resources, Collection and processing of statistics) ####
+Procces Description: A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours.
+The simulation is ended when the last customer has been served.
+
+Task:Execute single simulation run, calculate Average, Standard Deviation,
+confidence intervall lower and upper bounds,minimum	 and Maximum for the
+following performance measures: total elapsed time, queue length, queueing time
+service time.
+
+Model Features:
+1. FIFO Queue
+The customer object is placed in the FIFO arrival queue as soon as the customer is created.
+
+2. Parallel Resources
+The application constructs Tellers object to model tellers as a set of resources.
+The object 'provides' tellers to the customer located in the Queue head and "releases" the teller when customer is serviced.
+Maximum 3 tellers can be provided simultaneously.
+The interlocking between catching request is performed using godes BooleanControl object.
+
+3. Collection and processing of statistics
+While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollection object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
+	#Observ - number of observations
+	Average - average (mean) value
+	Std Dev- standard deviation
+	L-Bound-lower bound of the confidence interval  with 95% probability
+	U-Bound-upper bound of the confidence interval  with 95% probability
+	Minimum- minimum value
+	Maximum- maximum value
+	```go
+	// Copyright 2015 Alex Goussiatiner. All rights reserved.
+	// Use of this source code is governed by a MIT
+	// license that can be found in the LICENSE file.
+	package main
+	/*
+	Procces Description:
+	====================
+	A bank employs three tellers and the customers form a queue for all three tellers.
+	The doors of the bank close after eight hours.
+	The simulation is ended when the last customer has been served.
+	*/
+
+	import (
+		"fmt"
+		"godes"
+	)
+	//Input Parameters
+	const (
+		ARRIVAL_INTERVAL = 0.5
+		SERVICE_TIME = 1.3
+		SHUTDOWN_TIME = 8 * 60.
+	)
+	// the arrival and service are two random number generators for the exponential  distribution
+	var arrival *godes.ExpDistr = godes.NewExpDistr()
+	var service *godes.ExpDistr = godes.NewExpDistr()
+	// true when any counter is available
+	var counterSwt *godes.BooleanControl = godes.NewBooleanControl()
+	// FIFO Queue for the arrived customers
+	var customerArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue("0")
+
+
+	var tellers *Tellers
+	var measures [][]float64
+	var titles = []string{
+		"Elapsed Time",
+		"Queue Length",
+		"Queueing Time",
+		"Service Time",
+	}
+
+	var availableTellers int = 0;
+	// the Tellers is a Passive Object represebting resource
+	type Tellers struct {
+		max     int
+	}
+
+	func (tellers *Tellers) Catch(customer *Customer) {
+		for {
+			counterSwt.Wait(true)
+			if customerArrivalQueue.GetHead().(*Customer).GetId() == customer.GetId() {
+				break
+			} else {
+				godes.Yield()
+			}
+		}
+		availableTellers++
+		if availableTellers == tellers.max {
+			counterSwt.Set(false)
+		}
+	}
+
+	func (tellers *Tellers) Release() {
+		availableTellers--
+		counterSwt.Set(true)
+	}
+
+	// the Customer is a Runner
+	type Customer struct {
+		*godes.Runner
+		id int
+	}
+
+	func (customer *Customer) Run() {
+		a0 := godes.GetSystemTime()
+		tellers.Catch(customer)
+		a1 := godes.GetSystemTime()
+		customerArrivalQueue.Get()
+		qlength := float64(customerArrivalQueue.Len())
+		godes.Advance(service.Get(1. / SERVICE_TIME))
+		a2 := godes.GetSystemTime()
+		tellers.Release()
+		collectionArray := []float64{a2 - a0, qlength, a1 - a0, a2 - a1}
+		measures = append(measures, collectionArray)
+	}
+	func main() {
+		measures = [][]float64{}
+		tellers = &Tellers{3}
+		godes.Run()
+		counterSwt.Set(true)
+		count := 0
+		for {
+			customer := &Customer{&godes.Runner{}, count}
+			customerArrivalQueue.Place(customer)
+			godes.AddRunner(customer)
+			godes.Advance(arrival.Get(1. / ARRIVAL_INTERVAL))
+			if godes.GetSystemTime() > SHUTDOWN_TIME {
+				break
+			}
+			count++
+		}
+		godes.WaitUntilDone() // waits for all the runners to finish the Run()
+		collector := godes.NewStatCollector(titles, measures)
+		collector.PrintStat()
+		fmt.Printf("Finished \n")
+	}
+	Variable		#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
+	Elapsed Time	999	 3.965	 3.700	 3.736	 4.195	 0.002	17.343
+	Queue Length	999	 5.248	 7.573	 4.779	 5.718	 0.000	30.000
+	Queueing Time	999	 2.647	 3.467	 2.432	 2.862	 0.000	14.122
+	Service Time	999	 1.319	 1.295	 1.238	 1.399	 0.001	 8.617
+	Finished

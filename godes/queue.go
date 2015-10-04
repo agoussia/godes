@@ -17,6 +17,7 @@ type Queue struct {
 	count   int64
 	qList   *list.List
 	qTime   *list.List
+	startTime float64
 }
 
 // FIFOQueue represents a FIFO queue
@@ -39,10 +40,20 @@ func (q *Queue) Len() int {
 	return q.qList.Len()
 }
 
+//GetAverageTime is average elapsed time for an object in the queue
+func (q *Queue) GetAverageNumber() float64 {
+	return q.sumTime / (stime-q.startTime)
+}
+
 //Place adds an object to the queue
 func (q *Queue) Place(entity interface{}) {
+	
+	
 	q.qList.PushFront(entity)
 	q.qTime.PushFront(stime)
+	if(q.startTime==0){
+		q.startTime=stime
+	}
 }
 
 // Get returns an object and removes it from the queue
@@ -67,6 +78,25 @@ func (q *Queue) Get() interface{} {
 
 	return entity
 }
+
+// GetHead returns the head object (doesn't remove it from the queue)
+func (q *Queue) GetHead() interface{} {
+
+	var entity interface{}
+
+	if q.fifo {
+		entity = q.qList.Back().Value
+		
+	} else {
+		entity = q.qList.Front().Value
+		
+	}
+	
+	
+	return entity
+}
+
+
 
 // NewFIFOQueue itializes the FIFO queue
 func NewFIFOQueue(mid string) *FIFOQueue {

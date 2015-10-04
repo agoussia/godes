@@ -128,3 +128,8 @@ func Clear() {
 func GetSystemTime() float64 {
 	return stime
 }
+
+// GetSystemTime retuns the current simulation time
+func Yield()  {
+	Advance(0.01)
+}
