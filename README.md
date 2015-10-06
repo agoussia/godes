@@ -21,11 +21,12 @@ Godes is the general-purpose simulation library which includes the  simulation e
 * Code Security - the Godes includes the  source code for the library and Go is an open source project supported by Google
 * Godes is free open source software under MIT license
 
-###Installation###
-* Download, install and test the Go at your machine. See instructions at http://golang.org/doc/install
-* Optionally install one of the free Go IDE (i.e.LiteIDE X)
-* Download Godes package
-* Test one of the examples provided
+### Installation
+
+```
+$ go get github.com/agoussia/godes
+```
+
 
 ###Examples###
 
