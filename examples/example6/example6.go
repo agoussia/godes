@@ -21,8 +21,8 @@ const (
 	SHUTDOWN_TIME = 8 * 60.
 )
 // the arrival and service are two random number generators for the exponential  distribution
-var arrival *godes.ExpDistr = godes.NewExpDistr()
-var service *godes.ExpDistr = godes.NewExpDistr()
+var arrival *godes.ExpDistr = godes.NewExpDistr(true)
+var service *godes.ExpDistr = godes.NewExpDistr(true)
 // true when any counter is available
 var counterSwt *godes.BooleanControl = godes.NewBooleanControl()
 // FIFO Queue for the arrived customers
@@ -103,3 +103,10 @@ func main() {
 	collector.PrintStat()
 	fmt.Printf("Finished \n")
 }
+/* OUTPUT
+Variable		#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
+Elapsed Time	944	 2.591	 1.959	 2.466	 2.716	 0.005	11.189
+Queue Length	944	 2.411	 3.069	 2.215	 2.607	 0.000	13.000
+Queueing Time	944	 1.293	 1.533	 1.195	 1.391	 0.000	 6.994
+Service Time	944	 1.298	 1.247	 1.219	 1.378	 0.003	 7.824
+*/

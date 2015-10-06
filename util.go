@@ -1,10 +1,11 @@
 // Copyright 2015 Alex Goussiatiner. All rights reserved.
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
-
+//
 // Package godes  is the general-purpose simulation library
 // which includes the  simulation engine  and building blocks
 // for modeling a wide variety of systems at varying levels of details.
+
 package godes
 
 import (
@@ -20,7 +21,7 @@ const mAX_NUMBER_OF_PARAMETERS = 6
 
 var curTime int64
 
-func GetCurTime() int64 {
+func GetCurComputerTime() int64 {
 	ct := time.Now().UnixNano()
 	if ct > curTime {
 		curTime = ct
@@ -162,10 +163,10 @@ func (collector *StatCollector) GetStat(measureInd int) (int64, float64, float64
 	for i := 0; i < int(repl); i++ {
 		slice = append(slice, collector.samples[i][measureInd])
 	}
-	avg = MeanFloat(slice)
-	std = StandardDeviationFloat(slice)
-	lb, ub = NormalConfidenceIntervalFloat(slice)
-	min, max := MinMaxFloat(slice)
+	avg = Mean(slice)
+	std = StandardDeviation(slice)
+	lb, ub = NormalConfidenceInterval(slice)
+	min, max := MinMax(slice)
 	return repl, avg, std, lb, ub, min, max
 
 }
@@ -191,7 +192,7 @@ func (collector *StatCollector) GetAverage(measureInd int) float64 {
 	for i := 0; i < size; i++ {
 		slice = append(slice, collector.samples[i][measureInd])
 	}
-	avg = MeanFloat(slice)
+	avg = Mean(slice)
 	return avg
 }
 
@@ -207,7 +208,7 @@ func (collector *StatCollector) GetStandardDeviation(measureInd int) float64 {
 	for i := 0; i < size; i++ {
 		slice = append(slice, collector.samples[i][measureInd])
 	}
-	std = StandardDeviationFloat(slice)
+	std = StandardDeviation(slice)
 	return std
 }
 
@@ -223,7 +224,7 @@ func (collector *StatCollector) GetLowBoundCI(measureInd int) float64 {
 	for i := 0; i < size; i++ {
 		slice = append(slice, collector.samples[i][measureInd])
 	}
-	lb, _ = NormalConfidenceIntervalFloat(slice)
+	lb, _ = NormalConfidenceInterval(slice)
 	return lb
 }
 
@@ -239,7 +240,7 @@ func (collector *StatCollector) GetUpperBoundCI(measureInd int) float64 {
 	for i := 0; i < size; i++ {
 		slice = append(slice, collector.samples[i][measureInd])
 	}
-	_, ub = NormalConfidenceIntervalFloat(slice)
+	_, ub = NormalConfidenceInterval(slice)
 	return ub
 }
 
@@ -255,7 +256,7 @@ func (collector *StatCollector) GetMinimum(measureInd int) float64 {
 	for i := 0; i < size; i++ {
 		slice = append(slice, collector.samples[i][measureInd])
 	}
-	min, _ = MinMaxFloat(slice)
+	min, _ = MinMax(slice)
 	return min
 }
 
@@ -271,12 +272,12 @@ func (collector *StatCollector) GetMaximum(measureInd int) float64 {
 	for i := 0; i < size; i++ {
 		slice = append(slice, collector.samples[i][measureInd])
 	}
-	_, max = MinMaxFloat(slice)
+	_, max = MinMax(slice)
 	return max
 }
 
-// MeanFloat returns float mean value
-func MeanFloat(nums []float64) (mean float64) {
+// Mean returns float mean value
+func Mean(nums []float64) (mean float64) {
 	if len(nums) == 0 {
 		return 0.0
 	}
@@ -286,13 +287,13 @@ func MeanFloat(nums []float64) (mean float64) {
 	return mean / float64(len(nums))
 }
 
-// StandardDeviationFloat returns STD
-func StandardDeviationFloat(nums []float64) (dev float64) {
+// StandardDeviation returns STD
+func StandardDeviation(nums []float64) (dev float64) {
 	if len(nums) == 0 {
 		return 0.0
 	}
 
-	m := MeanFloat(nums)
+	m := Mean(nums)
 	for _, n := range nums {
 		dev += (n - m) * (n - m)
 	}
@@ -301,16 +302,16 @@ func StandardDeviationFloat(nums []float64) (dev float64) {
 	return dev
 }
 
-// NormalConfidenceIntervalFloat returns Confidence Interval
-func NormalConfidenceIntervalFloat(nums []float64) (lower float64, upper float64) {
+// NormalConfidenceInterval returns Confidence Interval
+func NormalConfidenceInterval(nums []float64) (lower float64, upper float64) {
 	conf := 1.95996 // 95% confidence for the mean, http://bit.ly/Mm05eZ
-	mean := MeanFloat(nums)
-	dev := StandardDeviationFloat(nums) / math.Sqrt(float64(len(nums)))
+	mean := Mean(nums)
+	dev := StandardDeviation(nums) / math.Sqrt(float64(len(nums)))
 	return mean - dev*conf, mean + dev*conf
 }
 
-// NormalConfidenceIntervalFloat returns Confidence Interval
-func MinMaxFloat(nums []float64) (minimum float64, maximum float64) {
+// MinMax returns minimum and maximum values amongst sample
+func MinMax(nums []float64) (minimum float64, maximum float64) {
 
 	min := nums[0]
 	max := nums[0]

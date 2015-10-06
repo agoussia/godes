@@ -30,6 +30,7 @@ const rUNNER_STATE_TERMINATED = 5
 var modl *model
 var stime float64 = 0
 
+
 // WaitUntilDone stops the main goroutine and waits 
 // until all the runners finished executing the Run()
 func WaitUntilDone() {
@@ -39,7 +40,7 @@ func WaitUntilDone() {
 	modl.waitUntillDone()
 }
 
-//AddRunner adds the runner into model and 
+//AddRunner adds the runner obejct into model  
 func AddRunner(runner RunnerInterface) {
 	if runner == nil {
 		panic("runner is nil")
@@ -163,7 +164,7 @@ type model struct {
 //newModel initilizes the model
 func newModel(verbose bool) *model {
 
-	var ball *Runner = NewRunner()
+	var ball *Runner = newRunner()
 	ball.channel = make(chan int)
 	ball.markTime = time.Now()
 	ball.internalId = 0
@@ -256,6 +257,42 @@ func (mdl *model) resume(runner RunnerInterface, timeChange float64) {
 	mdl.addToMovingList(runner)
 
 }
+
+
+/*
+func (mdl *model) interrupt(runner RunnerInterface) {
+
+	if runner.getState() != rUNNER_STATE_SCHEDULED {
+		panic("It is not  rUNNER_STATE_SCHEDULED")
+	}
+	mdl.removeFromSchedulledList(runner)
+	runner.setState(rUNNER_STATE_INTERRUPTED)
+	mdl.addToInterruptedMap(runner)
+
+}
+
+func (mdl *model) resume(runner RunnerInterface, timeChange float64) {
+	
+	
+	if runner.getState() != rUNNER_STATE_INTERRUPTED {
+		panic("It is not  rUNNER_STATE_INTERRUPTED")
+	}
+	mdl.removeFromInterruptedMap(runner)
+	runner.setState(rUNNER_STATE_SCHEDULED)
+	runner.setMovingTime(runner.getMovingTime() + timeChange)
+	//mdl.addToMovingList(runner)
+	mdl.addToSchedulledList(runner)
+	
+	
+	
+}
+*/
+
+
+
+
+
+
 
 func (mdl *model) booleanControlWait(b *BooleanControl, val bool) {
 

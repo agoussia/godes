@@ -18,10 +18,10 @@ const NUM_MACHINES = 10
 const SHUT_DOWN_TIME = 4 * 7 * 24 * 60
 
 // random generator for the processing time - normal distribution
-var processingGen *godes.NormalDistr = godes.NewNormalDistr()
+var processingGen *godes.NormalDistr = godes.NewNormalDistr(true)
 
 // random generator for the  time   until the next failure for a machine - exponential distribution
-var breaksGen *godes.ExpDistr = godes.NewExpDistr()
+var breaksGen *godes.ExpDistr = godes.NewExpDistr(true)
 
 // true when repairman is available for carrying a repair
 var repairManAvailableSwt *godes.BooleanControl = godes.NewBooleanControl()
@@ -30,16 +30,20 @@ type Machine struct {
 	*godes.Runner
 	partsCount int
 	number     int
+	finished   bool
 }
 
 func (machine *Machine) Run() {
 	for {
 		godes.Advance(processingGen.Get(PT_MEAN, PT_SIGMA))
-		machine.partsCount = machine.partsCount + 1
+		machine.partsCount++
 		if godes.GetSystemTime() > SHUT_DOWN_TIME {
+			machine.finished = true
 			break
 		}
+
 	}
+	fmt.Printf(" Machine # %v %v \n", machine.number, machine.partsCount)
 }
 
 type MachineRepair struct {
@@ -51,41 +55,51 @@ func (machineRepair *MachineRepair) Run() {
 	machine := machineRepair.machine
 	for {
 		godes.Advance(breaksGen.Get(1 / MTTF))
-		if machine.IsShedulled(){
-			breakTime := godes.GetSystemTime()
-			//interrupt machine
-			godes.Interrupt(machine)
-			repairManAvailableSwt.Wait(true)
-			//repair
-			repairManAvailableSwt.Set(false)
-			godes.Advance(processingGen.Get(REPAIR_TIME, REPAIR_TIME_SIGMA))
-			//release repairman
-			repairManAvailableSwt.Set(true)
-			//resume machine and change the scheduled time to compensate the idle time
-			godes.Resume(machine, godes.GetSystemTime()-breakTime)
-		}
-
-		if godes.GetSystemTime() > SHUT_DOWN_TIME {
+		if machine.finished {
 			break
 		}
+
+		interrupted := godes.GetSystemTime()
+		godes.Interrupt(machine)
+		repairManAvailableSwt.Wait(true)
+		if machine.finished {
+			break
+		}
+		repairManAvailableSwt.Set(false)
+		godes.Advance(processingGen.Get(REPAIR_TIME, REPAIR_TIME_SIGMA))
+		if machine.finished {
+			break
+		}
+		//release repairman
+		repairManAvailableSwt.Set(true)
+		//resume machine and change the scheduled time to compensate delay
+		godes.Resume(machine, godes.GetSystemTime()-interrupted)
+
 	}
+
 }
 
 func main() {
+
+	godes.Run()
+	repairManAvailableSwt.Set(true)
 	var m *Machine
-	x := make(map[int]*Machine)
 	for i := 0; i < NUM_MACHINES; i++ {
-		m = &Machine{&godes.Runner{}, 0, i}
+		m = &Machine{&godes.Runner{}, 0, i, false}
 		godes.AddRunner(m)
 		godes.AddRunner(&MachineRepair{&godes.Runner{}, m})
-		x[i] = m
 	}
-	repairManAvailableSwt.Set(true)
-	godes.Run()
 	godes.WaitUntilDone()
-	//print results
-	for i := 0; i < NUM_MACHINES; i++ {
-		m = x[i]
-		fmt.Printf(" Machine # %v %v \n", m.number, m.partsCount)
-	}
 }
+/* OUTPUT
+Machine # 4 3599 
+Machine # 5 3625 
+Machine # 7 3580 
+Machine # 2 3724 
+Machine # 1 3554 
+Machine # 9 3581 
+Machine # 0 3585 
+Machine # 6 3604 
+Machine # 3 3639 
+Machine # 8 3625 
+*/

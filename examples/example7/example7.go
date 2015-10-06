@@ -57,8 +57,8 @@ const (
 )
 
 // the arrival and service are two random number generators for the exponential  distribution
-var arrival *godes.ExpDistr = godes.NewExpDistr()
-var service *godes.ExpDistr = godes.NewExpDistr()
+var arrival *godes.ExpDistr = godes.NewExpDistr(true)
+var service *godes.ExpDistr = godes.NewExpDistr(true)
 
 // true when any counter is available
 var counterSwt *godes.BooleanControl = godes.NewBooleanControl()
@@ -165,3 +165,11 @@ func main() {
 	collector.PrintStat()
 	fmt.Printf("Finished \n")
 }
+/* OUTPUT
+Variable		#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
+Elapsed Time	100	 3.672	 1.217	 3.433	 3.910	 1.980	 8.722
+Queue Length	100	 4.684	 2.484	 4.197	 5.171	 1.539	14.615
+Queueing Time	100	 2.368	 1.194	 2.134	 2.602	 0.810	 7.350
+Service Time	100	 1.304	 0.044	 1.295	 1.312	 1.170	 1.432
+Finished 
+*/

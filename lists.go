@@ -7,7 +7,7 @@
 // for modeling a wide variety of systems at varying levels of details.
 //
 // Godes contains set of private functions for managing runners
-// 
+
 package godes
 
 import (

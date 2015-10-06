@@ -6,9 +6,9 @@
 // which includes the  simulation engine  and building blocks
 // for modeling a wide variety of systems at varying levels of details.
 //
-// Godes implements operations with FIFO and LIFO queues
-// See examples for the usage.
-//
+
+
+
 package godes
 
 import (

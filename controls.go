@@ -6,8 +6,20 @@
 // which includes the  simulation engine  and building blocks
 // for modeling a wide variety of systems at varying levels of details.
 //
-// Godes uses BooleanControl variables as a locks for syncronizing execution of multiple runners
-// See usage in the examples.
+// Godes Main Features:
+//
+// 1. Active Objects: All active objects in Godes shall implement the RunnerInterface
+// 2. Random Generators: Godes contains set of built-in functions for generating random numbers
+// 	  for commonly used probability distributions.Each of the distrubutions in Godes
+//    has one or more parameter values associated with it:	Uniform (Min, Max), 
+//    Normal (Mean and Standard Deviation), Exponential (Lambda), Triangular(Min, Mode, Max)
+// 3. Queues: Godes implements operations with FIFO and LIFO queues
+// 4. BooleanControl : Godes uses BooleanControl variables as a locks for 
+//	  syncronizing execution of multiple runners
+// 5. StatCollector: The object calculates and prints statistical parameters 
+//    for set of samples collected during the simulation.
+//
+//	 See usage in the examples.
 // 
 package godes
 
@@ -17,7 +29,7 @@ type BooleanControl struct {
 	state bool
 }
 
-// NewBooleanControl returns a BooleanControl
+// NewBooleanControl constructs a BooleanControl
 func NewBooleanControl() *BooleanControl {
 	return &BooleanControl{state: false}
 }

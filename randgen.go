@@ -13,21 +13,21 @@
 // 		Normal: Mean and Standard Deviation
 // 		Exponential: Lambda
 //		Triangular: Min, Mode, Max
+
 package godes
 
 import (
 	"math"
 	"math/rand"
+	//"fmt"
 )
+
+var seedCount int64 = 100000
 
 type distribution struct {
 	generator *rand.Rand
 }
 
-// Clear reinitiate the random generator
-func (b *distribution) Clear() {
-	b.generator = rand.New(rand.NewSource(GetCurTime()))
-}
 
 //UniformDistr represents the generator for the uniform distribution
 type UniformDistr struct {
@@ -35,9 +35,13 @@ type UniformDistr struct {
 }
 
 //NewUniformDistr initiats the generator for the uniform distribution
-func NewUniformDistr() *UniformDistr {
-	dist := UniformDistr{distribution{rand.New(rand.NewSource(GetCurTime()))}}
-	return &dist
+func NewUniformDistr(repetion bool) *UniformDistr {
+	if repetion {
+		seedCount++
+		return &UniformDistr{distribution{rand.New(rand.NewSource(seedCount))}}
+	} else {
+		return &UniformDistr{distribution{rand.New(rand.NewSource(GetCurComputerTime()))}}
+	}	
 }
 
 // Get returns new radom value from the uniform distribution generator
@@ -51,9 +55,13 @@ type NormalDistr struct {
 }
 
 // NewNormalDistr initiats the generator for the normal distribution
-func NewNormalDistr() *NormalDistr {
-	dist := NormalDistr{distribution{rand.New(rand.NewSource(GetCurTime()))}}
-	return &dist
+func NewNormalDistr(repetion bool) *NormalDistr {
+	if repetion {
+		seedCount++
+		return &NormalDistr{distribution{rand.New(rand.NewSource(seedCount))}}
+	} else {
+		return &NormalDistr{distribution{rand.New(rand.NewSource(GetCurComputerTime()))}}
+	}
 }
 
 // Get returns new radom value from the normal distribution generator
@@ -67,9 +75,16 @@ type ExpDistr struct {
 }
 
 //NewExpDistr initiats the generator for the exponential distribution
-func NewExpDistr() *ExpDistr {
-	dist := ExpDistr{distribution{rand.New(rand.NewSource(GetCurTime()))}}
-	return &dist
+// If repetition flag is true, the generator will generate the same sequences for every execution
+func NewExpDistr(repetion bool) *ExpDistr {
+
+	if repetion {
+		seedCount++
+		return &ExpDistr{distribution{rand.New(rand.NewSource(seedCount))}}
+	} else {
+		return &ExpDistr{distribution{rand.New(rand.NewSource(GetCurComputerTime()))}}
+	}
+
 }
 
 // Get returns new radom value from the exponential distribution generator
@@ -83,9 +98,14 @@ type TriangularDistr struct {
 }
 
 //NewTriangularDistr initiats the generator for the triangular distribution
-func NewTriangularDistr() *TriangularDistr {
-	dist := TriangularDistr{distribution{rand.New(rand.NewSource(GetCurTime()))}}
-	return &dist
+// If repetition flag is true, the generator will generate the same sequences for every execution
+func NewTriangularDistr(repetion bool) *TriangularDistr {
+	if repetion {
+		seedCount++
+		return &TriangularDistr{distribution{rand.New(rand.NewSource(seedCount))}}
+	} else {
+		return &TriangularDistr{distribution{rand.New(rand.NewSource(GetCurComputerTime()))}}
+	}
 }
 
 // Get returns new radom value from the triangular distribution generator

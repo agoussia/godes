@@ -9,8 +9,8 @@ import (
 )
 
 // the arrival and service are two random number generators for the uniform  distribution
-var arrival *godes.UniformDistr = godes.NewUniformDistr()
-var service *godes.UniformDistr = godes.NewUniformDistr()
+var arrival *godes.UniformDistr = godes.NewUniformDistr(true)
+var service *godes.UniformDistr = godes.NewUniformDistr(true)
 
 // true when waiter should act
 var waitersSwt *godes.BooleanControl = godes.NewBooleanControl()
@@ -69,11 +69,17 @@ func main() {
 		godes.WaitUntilDone() // waits for all the runners to finish the Run()
 		fmt.Printf(" Run # %v \t Average Time in Queue=%6.3f \n", runs, visitorArrivalQueue.GetAverageTime())
 		//clear after each run
-		arrival.Clear()
-		service.Clear()
 		waitersSwt.Clear()
 		visitorArrivalQueue.Clear()
 		godes.Clear()
 
 	}
 }
+/* OUTPUT
+ 
+Run # 0 	 Average Time in Queue=15.016 
+ Run # 1 	 Average Time in Queue=17.741 
+ Run # 2 	 Average Time in Queue=49.046 
+ Run # 3 	 Average Time in Queue=30.696 
+ Run # 4 	 Average Time in Queue=14.777 
+*/
