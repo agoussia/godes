@@ -30,8 +30,7 @@ const rUNNER_STATE_TERMINATED = 5
 var modl *model
 var stime float64 = 0
 
-
-// WaitUntilDone stops the main goroutine and waits 
+// WaitUntilDone stops the main goroutine and waits
 // until all the runners finished executing the Run()
 func WaitUntilDone() {
 	if modl == nil {
@@ -40,7 +39,7 @@ func WaitUntilDone() {
 	modl.waitUntillDone()
 }
 
-//AddRunner adds the runner obejct into model  
+//AddRunner adds the runner obejct into model
 func AddRunner(runner RunnerInterface) {
 	if runner == nil {
 		panic("runner is nil")
@@ -108,6 +107,7 @@ func Verbose(v bool) {
 	}
 	modl.DEBUG = v
 }
+
 // Clear the model between the runs
 func Clear() {
 	if modl == nil {
@@ -125,12 +125,11 @@ func Clear() {
 func GetSystemTime() float64 {
 	return stime
 }
-// GetSystemTime retuns the current simulation time
-func Yield()  {
+
+// Yield stops the runner for short time
+func Yield() {
 	Advance(0.01)
 }
-
-
 
 // createModel
 func createModel(verbose bool) {
@@ -143,8 +142,6 @@ func createModel(verbose bool) {
 	//model.control()
 	//assuming that it comes from the main go routine
 }
-
-
 
 type model struct {
 	//mu                  sync.RWMutex
@@ -254,44 +251,10 @@ func (mdl *model) resume(runner RunnerInterface, timeChange float64) {
 	mdl.removeFromInterruptedMap(runner)
 	runner.setState(rUNNER_STATE_SCHEDULED)
 	runner.setMovingTime(runner.getMovingTime() + timeChange)
-	mdl.addToMovingList(runner)
-
-}
-
-
-/*
-func (mdl *model) interrupt(runner RunnerInterface) {
-
-	if runner.getState() != rUNNER_STATE_SCHEDULED {
-		panic("It is not  rUNNER_STATE_SCHEDULED")
-	}
-	mdl.removeFromSchedulledList(runner)
-	runner.setState(rUNNER_STATE_INTERRUPTED)
-	mdl.addToInterruptedMap(runner)
-
-}
-
-func (mdl *model) resume(runner RunnerInterface, timeChange float64) {
-	
-	
-	if runner.getState() != rUNNER_STATE_INTERRUPTED {
-		panic("It is not  rUNNER_STATE_INTERRUPTED")
-	}
-	mdl.removeFromInterruptedMap(runner)
-	runner.setState(rUNNER_STATE_SCHEDULED)
-	runner.setMovingTime(runner.getMovingTime() + timeChange)
 	//mdl.addToMovingList(runner)
 	mdl.addToSchedulledList(runner)
-	
-	
-	
+
 }
-*/
-
-
-
-
-
 
 
 func (mdl *model) booleanControlWait(b *BooleanControl, val bool) {
@@ -390,4 +353,202 @@ func (mdl *model) control() bool {
 
 	return true
 
+}
+
+/*
+MovingList
+This list is sorted in descending order according to the value of the ball priority attribute.
+Balls with identical priority values are sorted according to the FIFO principle.
+
+			|
+			|	|
+			|	|
+	     	|	|	|
+	<-----	|	|	|	|
+*/
+func (mdl *model) addToMovingList(runner RunnerInterface) bool {
+
+	if mdl.DEBUG {
+		fmt.Printf("addToMovingList %v\n", runner)
+	}
+
+	if mdl.movingList == nil {
+		mdl.movingList = list.New()
+		mdl.movingList.PushFront(runner)
+		return true
+	}
+
+	insertedSwt := false
+	for element := mdl.movingList.Front(); element != nil; element = element.Next() {
+		if runner.getPriority() > element.Value.(RunnerInterface).getPriority() {
+			mdl.movingList.InsertBefore(runner, element)
+			insertedSwt = true
+			break
+		}
+	}
+	if !insertedSwt {
+		mdl.movingList.PushBack(runner)
+	}
+	return true
+}
+
+func (mdl *model) getFromMovingList() RunnerInterface {
+
+	if mdl.movingList == nil {
+		panic("MovingList was not initilized")
+	}
+	if mdl.DEBUG {
+		runner := mdl.movingList.Front().Value.(RunnerInterface)
+		fmt.Printf("getFromMovingList %v\n", runner)
+	}
+	runner := mdl.movingList.Front().Value.(RunnerInterface)
+	mdl.movingList.Remove(mdl.movingList.Front())
+	return runner
+
+}
+
+func (mdl *model) removeFromMovingList(runner RunnerInterface) {
+
+	if mdl.movingList == nil {
+		panic("MovingList was not initilized")
+	}
+
+	if mdl.DEBUG {
+		fmt.Printf("removeFromMovingList %v\n", runner)
+	}
+	var found bool
+	for e := mdl.movingList.Front(); e != nil; e = e.Next() {
+		if e.Value == runner {
+			mdl.movingList.Remove(e)
+			found = true
+			break
+		}
+	}
+
+	if !found {
+		//panic("not found in MovingList")
+	}
+}
+
+/*
+SchedulledList
+This list is sorted in descending order according to the schedulled time
+Priorites are not used
+
+			|
+			|	|
+			|	|
+			|	|	|
+			|	|	|	|--->
+
+*/
+func (mdl *model) addToSchedulledList(runner RunnerInterface) bool {
+
+	if mdl.scheduledList == nil {
+		mdl.scheduledList = list.New()
+		mdl.scheduledList.PushFront(runner)
+		return true
+	}
+	insertedSwt := false
+	for element := mdl.scheduledList.Back(); element != nil; element = element.Prev() {
+		if runner.getMovingTime() < element.Value.(RunnerInterface).getMovingTime() {
+			mdl.scheduledList.InsertAfter(runner, element)
+			insertedSwt = true
+			break
+		}
+	}
+	if !insertedSwt {
+		mdl.scheduledList.PushFront(runner)
+	}
+
+	if mdl.DEBUG {
+		fmt.Println("===")
+		fmt.Printf("addToSchedulledList %v\n", runner)
+		for element := mdl.scheduledList.Front(); element != nil; element = element.Next() {
+			fmt.Printf("elem %v\n", element.Value.(RunnerInterface))
+		}
+		fmt.Println("===")
+	}
+	return true
+}
+
+func (mdl *model) getFromSchedulledList() RunnerInterface {
+	if mdl.scheduledList == nil {
+		panic(" SchedulledList was not initilized")
+	}
+	if mdl.DEBUG {
+		runner := mdl.scheduledList.Back().Value.(RunnerInterface)
+		fmt.Printf("getFromSchedulledList %v\n", runner)
+	}
+	runner := mdl.scheduledList.Back().Value.(RunnerInterface)
+	mdl.scheduledList.Remove(mdl.scheduledList.Back())
+	return runner
+}
+
+func (mdl *model) removeFromSchedulledList(runner RunnerInterface) {
+	if mdl.scheduledList == nil {
+		panic("schedulledList was not initilized")
+	}
+	if modl.DEBUG {
+		fmt.Printf("removeFrom schedulledListt %v\n", runner)
+	}
+	var found bool
+	for e := mdl.scheduledList.Front(); e != nil; e = e.Next() {
+		if e.Value == runner {
+			mdl.scheduledList.Remove(e)
+			found = true
+			break
+		}
+	}
+	if !found {
+		panic("not found in scheduledList")
+	}
+	return
+}
+
+func (mdl *model) addToWaitingConditionMap(runner RunnerInterface) bool {
+
+	if runner.getWaitingForBoolControl() == nil {
+		panic(" addToWaitingConditionMap - no control ")
+	}
+
+	if mdl.DEBUG {
+		fmt.Printf("addToWaitingConditionMap %v\n", runner)
+	}
+
+	if mdl.waitingConditionMap == nil {
+		mdl.waitingConditionMap = make(map[int]RunnerInterface)
+
+	}
+	mdl.waitingConditionMap[runner.getInternalId()] = runner
+	return true
+}
+
+func (mdl *model) addToInterruptedMap(runner RunnerInterface) bool {
+
+	if mdl.DEBUG {
+		fmt.Printf("addToInterruptedMap %v\n", runner)
+	}
+	if mdl.interruptedMap == nil {
+		mdl.interruptedMap = make(map[int]RunnerInterface)
+	}
+
+	mdl.interruptedMap[runner.getInternalId()] = runner
+	return true
+}
+
+func (mdl *model) removeFromInterruptedMap(runner RunnerInterface) bool {
+
+	if mdl.DEBUG {
+		fmt.Printf("removeFromInterruptedMap %v\n", runner)
+	}
+
+	_, ok := mdl.interruptedMap[runner.getInternalId()]
+
+	if ok {
+		delete(mdl.interruptedMap, runner.getInternalId())
+	} else {
+		panic("not found in interruptedMap")
+	}
+	return true
 }
