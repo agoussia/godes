@@ -1,16 +1,42 @@
-#Godes#
+## Godes
 
 Open Source Libriary to Build Discrete Event Simulation Models in Golang (http://golang.org/)
 
 Copyright (c) 2013-2015 Alex Goussiatiner agoussia@yahoo.com
 
-###Features###
+### Features
 Godes is the general-purpose simulation library which includes the  simulation engine  and building blocks for modeling a wide variety of systems at varying levels of detail.
 
-###Library Docs###
+Godes Main Features Include:
+
+1. Active Objects
+
+All active objects in Godes shall implement the RunnerInterface and have Run() method
+
+2. Random Generators
+
+Godes contains set of built-in functions for generating random numbers for commonly used probability distributions.
+Each of the distrubutions in Godes has one or more parameter values associated with it: Uniform (Min, Max), Normal (Mean and Standard Deviation), Exponential (Lambda), Triangular(Min, Mode, Max)
+
+3. Queues
+
+Godes implements operations with FIFO and LIFO queues
+
+4. BooleanControl :
+
+Godes uses BooleanControl variables as a locks for
+syncronizing execution of multiple runners
+
+5. StatCollector
+
+The OBject calculates and prints statistical parameters for set of samples collected during the simulation.
+
+
+
+### Library Docs
 [![GoDoc](https://godoc.org/github.com/agoussia/godes?status.svg)](https://godoc.org/github.com/agoussia/godes)
 
-###Advantages###
+### Advantages
 * Godes is easy to learn for the people familiar with the Go and the elementary simulation concept
 * Godes model executes fast  as Go compiles to machine code.
 * Godes model is multiplatform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows, etc
@@ -27,19 +53,17 @@ Godes is the general-purpose simulation library which includes the  simulation e
 $ go get github.com/agoussia/godes
 ```
 
+### Examples
 
-###Examples###
+#### Example 0. Restorant.Covers Basics
 
-####Example 0. Covers: Basic Features####
+###### Procces Description
 During the working day the visitors are entering the restaurant at random intervals and immideatly get the table.
 The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
 The simulation itself is terminated when the last visitors enters the restaurant.
-```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 
+```go
 package main
 
 import (
@@ -101,16 +125,13 @@ func main() {
 ```
 ***
 
-####Example 1.  Covers:  Boolean Controls####
+#### Example 1. Restorant. Covers Boolean Controls
+###### Procces Description
 The restaurant has only one table to sit on. During the working day the visitors are entering the restaurant at random intervals
-and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
-The time spent in the restaurant is the random variable with uniform distribution from 10 to 60 minutes.
+and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.The time spent in the restaurant is the random variable with uniform distribution from 10 to 60 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
 The simulation itself is terminated when the last visitors has left the restaurant.
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
 
 import (
@@ -209,7 +230,8 @@ func main() {
 ```
 ***
 
-####Example 2.  Covers:  Queues####
+#### Example 2.  Restorant. Covers Queues
+###### Procces Description
 During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue. 
 The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes. 
 The simulation itself is terminated when 
@@ -219,9 +241,6 @@ The simulation itself is terminated when
 
 The model  calculates the average (arithmetic mean) of  the visitors waiting time
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
 
 import (
@@ -298,11 +317,11 @@ func main() {
 /* OUTPUT
 0.000  	 	Visitor 0 arrives 
 0.000  	 	Visitor 0 is invited by waiter 0  
-13.374 		 Visitor 0 leaves 
+13.374 		Visitor 0 leaves 
 16.066 	 	Visitor 1 arrives 
-16.066 		 Visitor 1 is invited by waiter 1  
+16.066 		Visitor 1 is invited by waiter 1  
 39.137 	 	Visitor 1 leaves 
-42.316 		 Visitor 2 arrives 
+42.316 		Visitor 2 arrives 
 42.316 	 	Visitor 2 is invited by waiter 1  
 46.058 	 	Visitor 3 arrives 
 46.058 	 	Visitor 3 is invited by waiter 0  
@@ -315,51 +334,49 @@ func main() {
 90.403 	 	Visitor 2 leaves 
 98.966 	 	Visitor 6 arrives 
 98.966 	 	Visitor 6 is invited by waiter 1  
-112.187 	 Visitor 7 arrives 
-115.572 	 Visitor 8 arrives 
-125.475 	 Visitor 6 leaves 
-125.475 	 Visitor 7 is invited by waiter 1  
-127.275 	 Visitor 5 leaves 
-127.275 	 Visitor 8 is invited by waiter 0  
-132.969 	 Visitor 9 arrives 
-143.591 	 Visitor 7 leaves 
-143.591 	 Visitor 9 is invited by waiter 1  
-144.995 	 Visitor 10 arrives 
-164.895 	 Visitor 9 leaves 
-164.895 	 Visitor 10 is invited by waiter 1  
-170.361 	 Visitor 8 leaves 
-170.451 	 Visitor 11 arrives 
-170.451 	 Visitor 11 is invited by waiter 0  
-175.338 	 Visitor 12 arrives 
-187.207 	 Visitor 13 arrives 
-191.885 	 Visitor 14 arrives 
-203.848 	 Visitor 10 leaves 
-203.848 	 Visitor 12 is invited by waiter 1  
-213.596 	 Visitor 15 arrives 
-228.436 	 Visitor 11 leaves 
-228.436 	 Visitor 13 is invited by waiter 0  
-231.098 	 Visitor 12 leaves 
-231.098 	 Visitor 14 is invited by waiter 1  
-231.769 	 Visitor 16 arrives 
-241.515 	 Visitor 13 leaves 
-241.515 	 Visitor 15 is invited by waiter 0  
-287.864 	 Visitor 15 leaves 
-287.864 	 Visitor 16 is invited by waiter 0  
-290.886 	 Visitor 14 leaves 
-290.886 	 Waiter  1 ends the work 
-330.903 	 Visitor 16 leaves 
-330.903 	 Waiter  0 ends the work 
+112.187 	Visitor 7 arrives 
+115.572 	Visitor 8 arrives 
+125.475 	Visitor 6 leaves 
+125.475 	Visitor 7 is invited by waiter 1  
+127.275 	Visitor 5 leaves 
+127.275 	Visitor 8 is invited by waiter 0  
+132.969 	Visitor 9 arrives 
+143.591 	Visitor 7 leaves 
+143.591 	Visitor 9 is invited by waiter 1  
+144.995 	Visitor 10 arrives 
+164.895 	Visitor 9 leaves 
+164.895 	Visitor 10 is invited by waiter 1  
+170.361 	Visitor 8 leaves 
+170.451 	Visitor 11 arrives 
+170.451 	Visitor 11 is invited by waiter 0  
+175.338 	Visitor 12 arrives 
+187.207 	Visitor 13 arrives 
+191.885 	Visitor 14 arrives 
+203.848 	Visitor 10 leaves 
+203.848 	Visitor 12 is invited by waiter 1  
+213.596 	Visitor 15 arrives 
+228.436 	Visitor 11 leaves 
+228.436 	Visitor 13 is invited by waiter 0  
+231.098 	Visitor 12 leaves 
+231.098 	Visitor 14 is invited by waiter 1  
+231.769 	Visitor 16 arrives 
+241.515 	Visitor 13 leaves 
+241.515 	Visitor 15 is invited by waiter 0  
+287.864 	Visitor 15 leaves 
+287.864 	Visitor 16 is invited by waiter 0  
+290.886 	Visitor 14 leaves 
+290.886 	Waiter  1 ends the work 
+330.903 	Visitor 16 leaves 
+330.903 	Waiter  0 ends the work 
 Average Waiting Time 15.016  
 */
 ```
 ***
 
-####Example 3.  Covers: Multiple Runs####
-
+#### Example 3. Restorant. Covers Multiple Runs
+###### Procces Description
+This is the same process as in Example 2. Sumulation is repeated 5 times.
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
 
 import (
@@ -436,7 +453,7 @@ func main() {
 }
 /* OUTPUT
  
-Run # 0 	 Average Time in Queue=15.016 
+ Run # 0 	 Average Time in Queue=15.016 
  Run # 1 	 Average Time in Queue=17.741 
  Run # 2 	 Average Time in Queue=49.046 
  Run # 3 	 Average Time in Queue=30.696 
@@ -445,18 +462,14 @@ Run # 0 	 Average Time in Queue=15.016
 
 ```
 ***
-
-####Example 4.  Machine Shop (Covers: Interrupt and Resume) ####
+#### Example 4.  Machine Shop. Covers Interrupt and Resume
+###### Procces Description
 A workshop has *n* identical machines. A stream of jobs (enough to
 keep the machines busy) arrives. Each machine breaks down
 periodically. Repairs are carried out by one repairman.
 The repairman continues them when he is done
 with the machine repair. The workshop works continuously.
-
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
 
 import (
@@ -548,27 +561,25 @@ func main() {
 	godes.WaitUntilDone()
 }
 /* OUTPUT
-Machine # 4 3599 
-Machine # 5 3625 
-Machine # 7 3580 
-Machine # 2 3724 
-Machine # 1 3554 
-Machine # 9 3581 
-Machine # 0 3585 
-Machine # 6 3604 
-Machine # 3 3639 
-Machine # 8 3625 
+ Machine # 1 3382 
+ Machine # 7 3255 
+ Machine # 4 3343 
+ Machine # 5 3336 
+ Machine # 6 3248 
+ Machine # 0 3369 
+ Machine # 2 3378 
+ Machine # 9 3342 
+ Machine # 8 3362 
+ Machine # 3 3213 
 */
 ```
 ***
 
-####Example 5.  Bank Renege (Covers: Wait with timeout) ####
+#### Example 5.  Bank Counter. Cover Waits with Timeouts
+###### Procces Description
 This example models a bank counter and customers arriving at random times. Each customer has a certain patience. It waits to get to the counter until she’s at the end of her tether. If she gets to the counter, she uses it for a while before releasing it.
 
 ```go
-// Copyright 2013 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
 
 import (
@@ -648,16 +659,15 @@ func main() {
 */
 ```
 ***
-
-####Example 6.  Bank - Single Run (Covers: FIFO Queue, Parallel Resources, Collection and processing of statistics) ####
-######Procces Description######
+#### Example 6.  Bank. Covers Single Run, FIFO Queue, Parallel Resources, StatCollection
+###### Procces Description
 A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours. The simulation is ended when the last customer has been served.
-######Task######
+###### Task
 Execute single simulation run, calculate Average, Standard Deviation,
 confidence intervall lower and upper bounds,minimum and Maximum for the
 following performance measures: total elapsed time, queue length, queueing time
 service time.
-######Model Features:######
+###### Model Features
 * **FIFO Queue.** The customer object is placed in the FIFO arrival queue as soon as the customer is created.
 * **Parallel Resources.**The application constructs Tellers object to model tellers as a set of resources.
 The object 'provides' tellers to the customer located in the Queue head and "releases" the teller when customer is serviced.
@@ -672,17 +682,7 @@ The interlocking between catching request is performed using godes BooleanContro
 	*Minimum- minimum value
 	*Maximum- maximum value
 ```go
-// Copyright 2015 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
-/*
-Procces Description:
-====================
-A bank employs three tellers and the customers form a queue for all three tellers. 
-The doors of the bank close after eight hours.
-The simulation is ended when the last customer has been served.
-*/
 
 import (
 	"fmt"
@@ -785,58 +785,15 @@ Queueing Time	944	 1.293	 1.533	 1.195	 1.391	 0.000	 6.994
 Service Time	944	 1.298	 1.247	 1.219	 1.378	 0.003	 7.824
 */
 ```
-####Example 7.  Bank - Multiple Runs (Covers: FIFO Queue, Parallel Resources, Collection and processing of statistics) ####
-######Procces Description######
-A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours. The simulation is ended when the last customer has been served.
-######Task######
+#### Example 7.  Bank. Covers Multiple Runs, FIFO Queue, Parallel Resources, StatCollector
+###### Procces Description
+See example 6.
+###### Task
 Execute multiple simulation runs, calculate Average, Standard Deviation, 
 confidence intervall lower and upper bounds,minimum	 and Maximum for the
 following performance measures: total elapsed time, queue length, queueing time, service time.
 ```go
-// Copyright 2015 Alex Goussiatiner. All rights reserved.
-// Use of this source code is governed by a MIT
-// license that can be found in the LICENSE file.
 package main
-
-/*
-Procces Description:
-===================
-A bank employs three tellers and the customers form a queue for all three tellers.
-The doors of the bank close after eight hours.
-The simulation is ended when the last customer has been served.
-
-Task
-====
-Execute multiple simulation runs, calculate Average, Standard Deviation, 
-confidence intervall lower and upper bounds,minimum	 and Maximum for the
-following performance measures: 
-	total elapsed time, 
-	queue length,
-	queueing time
-	service time.
-
-Model Features:
-===============
-1. FIFO Queue
-The customer object is placed in the FIFO arrival queue as soon as the customer is created.
-
-2. Parallel Resources
-The application constructs Tellers object to model tellers as a set of resources.
-The object 'provides' tellers to the customer located in the Queue head and "releases" the teller when customer is serviced.
-Maximum 3 tellers can be provided simultaneously.
-The interlocking between catching request is performed using godes BooleanControl object.
-
-3. Collection and processing of statistics
-While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollection object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
-	#Observ - number of observations
-	Average - average (mean) value
-	Std Dev- standard deviation
-	L-Bound-lower bound of the confidence interval  with 95% probability
-	U-Bound-upper bound of the confidence interval  with 95% probability
-	Minimum- minimum value
-	Maximum- maximum value
-*/
-
 import (
 	"fmt"
 	"godes"
