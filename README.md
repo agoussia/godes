@@ -7,8 +7,6 @@ Copyright (c) 2013-2015 Alex Goussiatiner agoussia@yahoo.com
 ### Features
 Godes is the general-purpose simulation library which includes the  simulation engine  and building blocks for modeling a wide variety of systems at varying levels of detail.
 
-****Godes Main Features Include:
-
 ###### Active Objects
 All active objects shall implement the RunnerInterface and have Run() method. For each active object Godes creates a goroutine - lightweight thread.
 
