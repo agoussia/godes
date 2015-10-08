@@ -1,16 +1,16 @@
 ## Godes
 
-Open Source Library to Build Discrete Event Simulation Models in Golang (http://golang.org/)
+Open Source Library to Build Discrete Event Simulation Models in Go (Golang http://golang.org/)
 
 Copyright (c) 2013-2015 Alex Goussiatiner agoussia@yahoo.com
 
 ### Features
 Godes is the general-purpose simulation library which includes the  simulation engine  and building blocks for modeling a wide variety of systems at varying levels of detail.
 
-Godes Main Features Include:
+****Godes Main Features Include:
 
 ###### Active Objects
-All active objects in Godes shall implement the RunnerInterface and have Run() method
+All active objects shall implement the RunnerInterface and have Run() method. For each active object Godes creates a goroutine - lightweight thread.
 
 ###### Random Generators
 Godes contains set of built-in functions for generating random numbers for commonly used probability distributions.
@@ -19,7 +19,7 @@ Each of the distrubutions in Godes has one or more parameter values associated w
 ###### Queues
 Godes implements operations with FIFO and LIFO queues
 
-###### BooleanControl :
+###### BooleanControl
 Godes uses BooleanControl variable as a lock for
 synchronizing execution of multiple runners
 
@@ -32,13 +32,13 @@ The Object calculates and prints statistical parameters for set of samples colle
 [![GoDoc](https://godoc.org/github.com/agoussia/godes?status.svg)](https://godoc.org/github.com/agoussia/godes)
 
 ### Advantages
-* Godes is easy to learn for the people familiar with the Go and the elementary simulation concept
+* Godes is easy to learn for the people familiar with the Go and the elementary simulation concept.Go performace is similar to C++ in performance.
 * Godes model executes fast  as Go compiles to machine code.
 * Godes model is multiplatform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows,etc
 * Godes model can be embedded in various computer systems and over the network
 * Speed of the Godes model compilation is high
 * Variety of the IDE with debuggers are available for Go and Godes as well
-* The Godes model can use all of the GO's features and libraries
+* The Godes sumulation model can use all of the GO's features and libraries
 * Code Security - the Godes includes the  source code for the library and Go is an open source project supported by Google
 * Godes is free open source software under MIT license
 
@@ -50,7 +50,7 @@ $ go get github.com/agoussia/godes
 
 ### Examples
 
-#### Example 0. Restaurant.Covers Basics
+#### Example 0. Restaurant.Godes Basics
 
 ###### Proces Description
 During the working day the visitors are entering the restaurant at random intervals and immediately get the table.
@@ -120,7 +120,7 @@ func main() {
 ```
 ***
 
-#### Example 1. Restaurant. Covers Boolean Controls
+#### Example 1. Restaurant. Godes Boolean Controls
 ###### Proces Description
 The restaurant has only one table to sit on. During the working day the visitors are entering the restaurant at random intervals
 and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.The time spent in the restaurant is the random variable with uniform distribution from 10 to 60 minutes.
@@ -225,7 +225,7 @@ func main() {
 ```
 ***
 
-#### Example 2.  Restaurant. Covers Queues
+#### Example 2.  Restaurant. Godes Queues
 ###### Proces Description
 During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue. 
 The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes. 
@@ -368,7 +368,7 @@ Average Waiting Time 15.016
 ```
 ***
 
-#### Example 3. Restaurant. Covers Multiple Runs
+#### Example 3. Restaurant. Multiple Runs
 ###### Proces Description
 This is the same process as in Example 2. Simulation is repeated 5 times.
 ```go
@@ -457,7 +457,7 @@ func main() {
 
 ```
 ***
-#### Example 4.  Machine Shop. Covers Interrupt and Resume
+#### Example 4.  Machine Shop. Godes Interrupt and Resume Feature.
 ###### Proces Description
 A workshop has *n* identical machines. A stream of jobs (enough to
 keep the machines busy) arrives. Each machine breaks down
@@ -570,7 +570,7 @@ func main() {
 ```
 ***
 
-#### Example 5.  Bank Counter. Cover Waits with Timeouts
+#### Example 5.  Bank Counter. Godes Wait with Timeout Feature.
 ###### Proces Description
 This example models a bank counter and customers arriving at random times. Each customer has a certain patience. It waits to get to the counter until she’s at the end of her tether. If she gets to the counter, she uses it for a while before releasing it.
 
@@ -654,7 +654,7 @@ func main() {
 */
 ```
 ***
-#### Example 6. Bank. Covers Single Run, FIFO Queue, Parallel Resources, StatCollection
+#### Example 6. Bank. Sngle Run, FIFO Queue, Parallel Resources, StatCollection
 ###### Proces Description
 A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours. The simulation is ended when the last customer has been served.
 ###### Task
@@ -779,7 +779,7 @@ Queueing Time	944	 1.293	 1.533	 1.195	 1.391	 0.000	 6.994
 Service Time	944	 1.298	 1.247	 1.219	 1.378	 0.003	 7.824
 */
 ```
-#### Example 7.  Bank. Covers Multiple Runs, FIFO Queue, Parallel Resources, StatCollector
+#### Example 7.  Bank.  Multiple Runs, FIFO Queue, Parallel Resources, StatCollector
 ###### Procces Description
 See example 6.
 ###### Task
