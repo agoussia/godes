@@ -1,6 +1,6 @@
 ## Godes
 
-Open Source Libriary to Build Discrete Event Simulation Models in Golang (http://golang.org/)
+Open Source Library to Build Discrete Event Simulation Models in Golang (http://golang.org/)
 
 Copyright (c) 2013-2015 Alex Goussiatiner agoussia@yahoo.com
 
@@ -9,27 +9,22 @@ Godes is the general-purpose simulation library which includes the  simulation e
 
 Godes Main Features Include:
 
-1. Active Objects
-
+###### Active Objects
 All active objects in Godes shall implement the RunnerInterface and have Run() method
 
-2. Random Generators
-
+###### Random Generators
 Godes contains set of built-in functions for generating random numbers for commonly used probability distributions.
 Each of the distrubutions in Godes has one or more parameter values associated with it: Uniform (Min, Max), Normal (Mean and Standard Deviation), Exponential (Lambda), Triangular(Min, Mode, Max)
 
-3. Queues
-
+###### Queues
 Godes implements operations with FIFO and LIFO queues
 
-4. BooleanControl :
+###### BooleanControl :
+Godes uses BooleanControl variable as a lock for
+synchronizing execution of multiple runners
 
-Godes uses BooleanControl variables as a locks for
-syncronizing execution of multiple runners
-
-5. StatCollector
-
-The OBject calculates and prints statistical parameters for set of samples collected during the simulation.
+###### StatCollector
+The Object calculates and prints statistical parameters for set of samples collected during the simulation.
 
 
 
@@ -39,7 +34,7 @@ The OBject calculates and prints statistical parameters for set of samples colle
 ### Advantages
 * Godes is easy to learn for the people familiar with the Go and the elementary simulation concept
 * Godes model executes fast  as Go compiles to machine code.
-* Godes model is multiplatform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows, etc
+* Godes model is multiplatform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows,etc
 * Godes model can be embedded in various computer systems and over the network
 * Speed of the Godes model compilation is high
 * Variety of the IDE with debuggers are available for Go and Godes as well
@@ -55,10 +50,10 @@ $ go get github.com/agoussia/godes
 
 ### Examples
 
-#### Example 0. Restorant.Covers Basics
+#### Example 0. Restaurant.Covers Basics
 
-###### Procces Description
-During the working day the visitors are entering the restaurant at random intervals and immideatly get the table.
+###### Proces Description
+During the working day the visitors are entering the restaurant at random intervals and immediately get the table.
 The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
 The simulation itself is terminated when the last visitors enters the restaurant.
@@ -125,8 +120,8 @@ func main() {
 ```
 ***
 
-#### Example 1. Restorant. Covers Boolean Controls
-###### Procces Description
+#### Example 1. Restaurant. Covers Boolean Controls
+###### Proces Description
 The restaurant has only one table to sit on. During the working day the visitors are entering the restaurant at random intervals
 and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.The time spent in the restaurant is the random variable with uniform distribution from 10 to 60 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
@@ -189,55 +184,55 @@ func main() {
 60.558 	 Visitor 1 leaves 
 98.737 	 Visitor 2 arrives 
 98.737 	 Visitor 2 gets the table 
-107.468 	 Visitor 3 arrives 
-146.824 	 Visitor 2 leaves 
-146.824 	 Visitor 3 gets the table 
-149.471 	 Visitor 4 arrives 
-171.623 	 Visitor 3 leaves 
-171.623 	 Visitor 4 gets the table 
-187.234 	 Visitor 4 leaves 
-207.523 	 Visitor 5 arrives 
-207.523 	 Visitor 5 gets the table 
-230.922 	 Visitor 6 arrives 
-245.859 	 Visitor 5 leaves 
-245.859 	 Visitor 6 gets the table 
-261.770 	 Visitor 7 arrives 
-269.668 	 Visitor 8 arrives 
-272.368 	 Visitor 6 leaves 
-272.368 	 Visitor 7 gets the table 
-290.484 	 Visitor 7 leaves 
-290.484 	 Visitor 8 gets the table 
-310.261 	 Visitor 9 arrives 
-333.570 	 Visitor 8 leaves 
-333.570 	 Visitor 9 gets the table 
-338.323 	 Visitor 10 arrives 
-354.874 	 Visitor 9 leaves 
-354.874 	 Visitor 10 gets the table 
-393.826 	 Visitor 10 leaves 
-397.720 	 Visitor 11 arrives 
-397.720 	 Visitor 11 gets the table 
-409.123 	 Visitor 12 arrives 
-436.817 	 Visitor 13 arrives 
-447.731 	 Visitor 14 arrives 
-455.705 	 Visitor 11 leaves 
-455.705 	 Visitor 13 gets the table 
-482.955 	 Visitor 13 leaves 
-482.955 	 Visitor 12 gets the table 
-496.034 	 Visitor 12 leaves 
-496.034 	 Visitor 14 gets the table 
-555.822 	 Visitor 14 leaves 
+107.468  Visitor 3 arrives 
+146.824  Visitor 2 leaves 
+146.824  Visitor 3 gets the table 
+149.471  Visitor 4 arrives 
+171.623  Visitor 3 leaves 
+171.623  Visitor 4 gets the table 
+187.234  Visitor 4 leaves 
+207.523  Visitor 5 arrives 
+207.523  Visitor 5 gets the table 
+230.922  Visitor 6 arrives 
+245.859  Visitor 5 leaves 
+245.859  Visitor 6 gets the table 
+261.770  Visitor 7 arrives 
+269.668  Visitor 8 arrives 
+272.368  Visitor 6 leaves 
+272.368  Visitor 7 gets the table 
+290.484  Visitor 7 leaves 
+290.484  Visitor 8 gets the table 
+310.261  Visitor 9 arrives 
+333.570  Visitor 8 leaves 
+333.570  Visitor 9 gets the table 
+338.323  Visitor 10 arrives 
+354.874  Visitor 9 leaves 
+354.874  Visitor 10 gets the table 
+393.826  Visitor 10 leaves 
+397.720  Visitor 11 arrives 
+397.720  Visitor 11 gets the table 
+409.123  Visitor 12 arrives 
+436.817  Visitor 13 arrives 
+447.731  Visitor 14 arrives 
+455.705  Visitor 11 leaves 
+455.705  Visitor 13 gets the table 
+482.955  Visitor 13 leaves 
+482.955  Visitor 12 gets the table 
+496.034  Visitor 12 leaves 
+496.034  Visitor 14 gets the table 
+555.822  Visitor 14 leaves 
 */
 ```
 ***
 
-#### Example 2.  Restorant. Covers Queues
-###### Procces Description
+#### Example 2.  Restaurant. Covers Queues
+###### Proces Description
 During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue. 
 The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes. 
 The simulation itself is terminated when 
 * Simulation time passes the four hours 
 * Both waiters have finished servicing  
-* There is no visitors in the arrival queue. 
+* There are no visitors in the arrival queue. 
 
 The model  calculates the average (arithmetic mean) of  the visitors waiting time
 ```go
@@ -373,9 +368,9 @@ Average Waiting Time 15.016
 ```
 ***
 
-#### Example 3. Restorant. Covers Multiple Runs
-###### Procces Description
-This is the same process as in Example 2. Sumulation is repeated 5 times.
+#### Example 3. Restaurant. Covers Multiple Runs
+###### Proces Description
+This is the same process as in Example 2. Simulation is repeated 5 times.
 ```go
 package main
 
@@ -463,7 +458,7 @@ func main() {
 ```
 ***
 #### Example 4.  Machine Shop. Covers Interrupt and Resume
-###### Procces Description
+###### Proces Description
 A workshop has *n* identical machines. A stream of jobs (enough to
 keep the machines busy) arrives. Each machine breaks down
 periodically. Repairs are carried out by one repairman.
@@ -576,7 +571,7 @@ func main() {
 ***
 
 #### Example 5.  Bank Counter. Cover Waits with Timeouts
-###### Procces Description
+###### Proces Description
 This example models a bank counter and customers arriving at random times. Each customer has a certain patience. It waits to get to the counter until she’s at the end of her tether. If she gets to the counter, she uses it for a while before releasing it.
 
 ```go
@@ -659,21 +654,20 @@ func main() {
 */
 ```
 ***
-#### Example 6.  Bank. Covers Single Run, FIFO Queue, Parallel Resources, StatCollection
-###### Procces Description
+#### Example 6. Bank. Covers Single Run, FIFO Queue, Parallel Resources, StatCollection
+###### Proces Description
 A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours. The simulation is ended when the last customer has been served.
 ###### Task
-Execute single simulation run, calculate Average, Standard Deviation,
-confidence intervall lower and upper bounds,minimum and Maximum for the
+Execute single simulation run, calculate average, standard deviation,
+confidence interval, lower and upper bounds, minimum and maximum values for the
 following performance measures: total elapsed time, queue length, queueing time
 service time.
 ###### Model Features
 * **FIFO Queue.** The customer object is placed in the FIFO arrival queue as soon as the customer is created.
-* **Parallel Resources.**The application constructs Tellers object to model tellers as a set of resources.
+* **Parallel Resources.** The application constructs Tellers object to model tellers as a set of resources.
 The object 'provides' tellers to the customer located in the Queue head and "releases" the teller when customer is serviced.
-Maximum 3 tellers can be provided simultaneously.
-The interlocking between catching request is performed using godes BooleanControl object.
-* **Collection and processing of statistics**.While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollection object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
+Maximum 3 tellers can be provided simultaneously. The interlocking between catching request is performed using godes BooleanControl object.
+* **Collection and processing of statistics.** While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollection object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
 	*Observ - number of observations
 	*Average - average (mean) value
 	*Std Dev- standard deviation
@@ -918,7 +912,7 @@ func main() {
 	fmt.Printf("Finished \n")
 }
 /* OUTPUT
-Variable		#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
+Variable	#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
 Elapsed Time	100	 3.672	 1.217	 3.433	 3.910	 1.980	 8.722
 Queue Length	100	 4.684	 2.484	 4.197	 5.171	 1.539	14.615
 Queueing Time	100	 2.368	 1.194	 2.134	 2.602	 0.810	 7.350
