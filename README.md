@@ -5,7 +5,7 @@ Open Source Library to Build Discrete Event Simulation Models in Go (Golang http
 Copyright (c) 2013-2015 Alex Goussiatiner agoussia@yahoo.com
 
 ### Features
-Godes is the general-purpose simulation library which includes the  simulation engine  and building blocks for modeling a wide variety of systems at varying levels of detail.
+Godes is the general-purpose simulation library which includes the  simulation engine  and building blocks for modeling a wide variety of systems at varying levels of details.
 
 ###### Active Objects
 All active objects shall implement the RunnerInterface and have Run() method. For each active object Godes creates a goroutine - lightweight thread.
@@ -666,13 +666,8 @@ service time.
 The object 'provides' tellers to the customer located in the Queue head and "releases" the teller when customer is serviced.
 Maximum 3 tellers can be provided simultaneously. The interlocking between catching request is performed using godes BooleanControl object.
 * **Collection and processing of statistics.** While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollection object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
-	*Observ - number of observations
-	*Average - average (mean) value
-	*Std Dev- standard deviation
-	*L-Bound-lower bound of the confidence interval  with 95% probability
-	*U-Bound-upper bound of the confidence interval  with 95% probability
-	*Minimum- minimum value
-	*Maximum- maximum value
+	Observ - number of observations, Average - average (mean) value, Std Dev- standard deviation, L-Bound-lower bound of the confidence interval  with 95% probability, U-Bound-upper bound of the confidence interval  with 95% probability,
+	Minimum value,Maximum value
 ```go
 package main
 
@@ -782,7 +777,7 @@ Service Time	944	 1.298	 1.247	 1.219	 1.378	 0.003	 7.824
 See example 6.
 ###### Task
 Execute multiple simulation runs, calculate Average, Standard Deviation, 
-confidence intervall lower and upper bounds,minimum	 and Maximum for the
+confidence intervall lower and upper bounds,minimu and maximum for the
 following performance measures: total elapsed time, queue length, queueing time, service time.
 ```go
 package main
