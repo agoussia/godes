@@ -1,6 +1,6 @@
 ## Godes
 
-Open Source Library to Build Discrete Event Simulation Models in Go (Golang http://golang.org/)
+Open Source Library to Build Discrete Event Simulation Models in Go/Golang (http://golang.org/)
 
 Copyright (c) 2013-2015 Alex Goussiatiner agoussia@yahoo.com
 
@@ -30,15 +30,15 @@ The Object calculates and prints statistical parameters for set of samples colle
 [![GoDoc](https://godoc.org/github.com/agoussia/godes?status.svg)](https://godoc.org/github.com/agoussia/godes)
 
 ### Advantages
-* Godes is easy to learn for the people familiar with the Go and the elementary simulation concept.Go performace is similar to C++ in performance.
-* Godes model executes fast  as Go compiles to machine code.
-* Godes model is multiplatform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows,etc
-* Godes model can be embedded in various computer systems and over the network
-* Speed of the Godes model compilation is high
-* Variety of the IDE with debuggers are available for Go and Godes as well
-* The Godes sumulation model can use all of the GO's features and libraries
-* Code Security - the Godes includes the  source code for the library and Go is an open source project supported by Google
-* Godes is free open source software under MIT license
+* Godes is easy to learn for the people familiar with the Go and the elementary simulation concept.
+* Godes model executes fast  as Go compiles to machine code. Its performace is similar to C++ in performance.
+* Godes model is multiplatform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows,etc.
+* Godes model can be embedded in various computer systems and over the network.
+* Speed of the Godes model compilation is high.
+* Variety of the IDE with debuggers are available for Go and Godes as well.
+* The Godes sumulation model can use all of the GO's features and libraries.
+* Code Security - the Godes includes the  source code for the library and Go is an open source project supported by Google.
+* Godes is free open source software under MIT license.
 
 ### Installation
 
