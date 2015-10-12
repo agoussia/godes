@@ -652,7 +652,7 @@ func main() {
 */
 ```
 ***
-#### Example 6. Bank. Sngle Run, FIFO Queue, Parallel Resources, StatCollection
+#### Example 6. Bank. Sngle Run, FIFO Queue, Parallel Resources, StatCollector
 ###### Proces Description
 A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours. The simulation is ended when the last customer has been served.
 ###### Task
@@ -665,7 +665,7 @@ service time.
 * **Parallel Resources.** The application constructs Tellers object to model tellers as a set of resources.
 The object 'provides' tellers to the customer located in the Queue head and "releases" the teller when customer is serviced.
 Maximum 3 tellers can be provided simultaneously. The interlocking between catching request is performed using godes BooleanControl object.
-* **Collection and processing of statistics.** While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollection object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
+* **Collection and processing of statistics.** While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollector object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
 	Observ - number of observations, Average - average (mean) value, Std Dev- standard deviation, L-Bound-lower bound of the confidence interval  with 95% probability, U-Bound-upper bound of the confidence interval  with 95% probability,
 	Minimum value,Maximum value
 ```go
