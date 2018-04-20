@@ -37,7 +37,6 @@ type RunnerInterface interface {
 	getWaitingForBoolControl() *BooleanControl
 	setWaitingForBoolControlTimeoutId(id int)
 	getWaitingForBoolControlTimeoutId() int
-	
 }
 
 type Runner struct {
@@ -61,7 +60,7 @@ type TimeoutRunner struct {
 
 func (timeOut *TimeoutRunner) Run() {
 	Advance(timeOut.timeoutPeriod)
-	if timeOut.original.getWaitingForBoolControl != nil && timeOut.original.getWaitingForBoolControlTimeoutId() == timeOut.internalId {
+	if timeOut.original.getWaitingForBoolControl() != nil && timeOut.original.getWaitingForBoolControlTimeoutId() == timeOut.internalId {
 		timeOut.original.setState(rUNNER_STATE_READY)
 		timeOut.original.setWaitingForBoolControl(nil)
 		modl.addToMovingList(timeOut.original)
@@ -94,7 +93,6 @@ func (b *Runner) getChannel() chan int {
 	return b.channel
 }
 
-
 func (b *Runner) setInternalId(i int) {
 	b.internalId = i
 
@@ -110,9 +108,6 @@ func (b *Runner) setMovingTime(m float64) {
 func (b *Runner) getMovingTime() float64 {
 	return b.movingTime
 }
-
-
-
 
 func (b *Runner) setMarkTime(m time.Time) {
 	b.markTime = m
@@ -157,7 +152,7 @@ func (b *Runner) getWaitingForBoolControlTimeoutId() int {
 	return b.waitingForBoolControlTimeoutId
 }
 
-func (b *Runner) IsShedulled() bool{
+func (b *Runner) IsShedulled() bool {
 	if b.state == rUNNER_STATE_SCHEDULED {
 		return true
 	}
@@ -167,13 +162,10 @@ func (b *Runner) IsShedulled() bool{
 func (b *Runner) GetMovingTime() float64 {
 	if b.state == rUNNER_STATE_SCHEDULED {
 		return b.movingTime
-	}else{
-		panic ("Runner is Not Shedulled ")
+	} else {
+		panic("Runner is Not Shedulled ")
 	}
 }
-
-
-
 
 func (b *Runner) String() string {
 
