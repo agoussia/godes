@@ -5,7 +5,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/agoussia/godes"
+
+	"github.com/godes"
 )
 
 // the arrival and service are two random number generators for the uniform  distribution
@@ -49,50 +50,51 @@ func main() {
 	}
 	godes.WaitUntilDone() // waits for all the runners to finish the Run()
 }
+
 /* OUTPUT
-0.000  	 Visitor 0 arrives 
-0.000  	 Visitor 0 gets the table 
-13.374 	 Visitor 0 leaves 
-37.486 	 Visitor 1 arrives 
-37.486 	 Visitor 1 gets the table 
-60.558 	 Visitor 1 leaves 
-98.737 	 Visitor 2 arrives 
-98.737 	 Visitor 2 gets the table 
-107.468 	 Visitor 3 arrives 
-146.824 	 Visitor 2 leaves 
-146.824 	 Visitor 3 gets the table 
-149.471 	 Visitor 4 arrives 
-171.623 	 Visitor 3 leaves 
-171.623 	 Visitor 4 gets the table 
-187.234 	 Visitor 4 leaves 
-207.523 	 Visitor 5 arrives 
-207.523 	 Visitor 5 gets the table 
-230.922 	 Visitor 6 arrives 
-245.859 	 Visitor 5 leaves 
-245.859 	 Visitor 6 gets the table 
-261.770 	 Visitor 7 arrives 
-269.668 	 Visitor 8 arrives 
-272.368 	 Visitor 6 leaves 
-272.368 	 Visitor 7 gets the table 
-290.484 	 Visitor 7 leaves 
-290.484 	 Visitor 8 gets the table 
-310.261 	 Visitor 9 arrives 
-333.570 	 Visitor 8 leaves 
-333.570 	 Visitor 9 gets the table 
-338.323 	 Visitor 10 arrives 
-354.874 	 Visitor 9 leaves 
-354.874 	 Visitor 10 gets the table 
-393.826 	 Visitor 10 leaves 
-397.720 	 Visitor 11 arrives 
-397.720 	 Visitor 11 gets the table 
-409.123 	 Visitor 12 arrives 
-436.817 	 Visitor 13 arrives 
-447.731 	 Visitor 14 arrives 
-455.705 	 Visitor 11 leaves 
-455.705 	 Visitor 13 gets the table 
-482.955 	 Visitor 13 leaves 
-482.955 	 Visitor 12 gets the table 
-496.034 	 Visitor 12 leaves 
-496.034 	 Visitor 14 gets the table 
-555.822 	 Visitor 14 leaves 
+0.000  	 Visitor 0 arrives
+0.000  	 Visitor 0 gets the table
+13.374 	 Visitor 0 leaves
+37.486 	 Visitor 1 arrives
+37.486 	 Visitor 1 gets the table
+60.558 	 Visitor 1 leaves
+98.737 	 Visitor 2 arrives
+98.737 	 Visitor 2 gets the table
+107.468 	 Visitor 3 arrives
+146.824 	 Visitor 2 leaves
+146.824 	 Visitor 3 gets the table
+149.471 	 Visitor 4 arrives
+171.623 	 Visitor 3 leaves
+171.623 	 Visitor 4 gets the table
+187.234 	 Visitor 4 leaves
+207.523 	 Visitor 5 arrives
+207.523 	 Visitor 5 gets the table
+230.922 	 Visitor 6 arrives
+245.859 	 Visitor 5 leaves
+245.859 	 Visitor 6 gets the table
+261.770 	 Visitor 7 arrives
+269.668 	 Visitor 8 arrives
+272.368 	 Visitor 6 leaves
+272.368 	 Visitor 7 gets the table
+290.484 	 Visitor 7 leaves
+290.484 	 Visitor 8 gets the table
+310.261 	 Visitor 9 arrives
+333.570 	 Visitor 8 leaves
+333.570 	 Visitor 9 gets the table
+338.323 	 Visitor 10 arrives
+354.874 	 Visitor 9 leaves
+354.874 	 Visitor 10 gets the table
+393.826 	 Visitor 10 leaves
+397.720 	 Visitor 11 arrives
+397.720 	 Visitor 11 gets the table
+409.123 	 Visitor 12 arrives
+436.817 	 Visitor 13 arrives
+447.731 	 Visitor 14 arrives
+455.705 	 Visitor 11 leaves
+455.705 	 Visitor 13 gets the table
+482.955 	 Visitor 13 leaves
+482.955 	 Visitor 12 gets the table
+496.034 	 Visitor 12 leaves
+496.034 	 Visitor 14 gets the table
+555.822 	 Visitor 14 leaves
 */
