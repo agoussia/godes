@@ -5,7 +5,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/agoussia/godes"
+
+	"github.com/godes"
 )
 
 const PT_MEAN = 10.0          //	Avg. processing time in minutes
@@ -91,15 +92,16 @@ func main() {
 	}
 	godes.WaitUntilDone()
 }
+
 /* OUTPUT
-Machine # 4 3599 
-Machine # 5 3625 
-Machine # 7 3580 
-Machine # 2 3724 
-Machine # 1 3554 
-Machine # 9 3581 
-Machine # 0 3585 
-Machine # 6 3604 
-Machine # 3 3639 
-Machine # 8 3625 
+Machine # 4 3599
+Machine # 5 3625
+Machine # 7 3580
+Machine # 2 3724
+Machine # 1 3554
+Machine # 9 3581
+Machine # 0 3585
+Machine # 6 3604
+Machine # 3 3639
+Machine # 8 3625
 */

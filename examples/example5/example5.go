@@ -5,7 +5,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/agoussia/godes"
+
+	"github.com/godes"
 )
 
 const NEW_CUSTOMERS = 5          // Total number of customers
@@ -62,19 +63,20 @@ func main() {
 	godes.WaitUntilDone()
 
 }
+
 /* OUTPUT
-0.000  	Customer 0 : Here I am   My patience= 1.135  
-0.000  	Customer 0 : Waited  0.000 
-5.536  	Customer 0 : Finished 
-11.141  Customer 1 : Here I am   My patience= 1.523  
-11.141  Customer 1 : Waited  0.000 
-34.482  Customer 2 : Here I am   My patience= 2.523  
-36.123  Customer 1 : Finished 
-36.123  Customer 2 : Waited  1.641 
-38.869  Customer 2 : Finished 
-39.943  Customer 3 : Here I am   My patience= 1.592  
-39.943  Customer 3 : Waited  0.000 
-49.113  Customer 4 : Here I am   My patience= 1.224  
-50.337  Customer 4 : Reneged after   1.224 
-59.948  Customer 3 : Finished 
+0.000  	Customer 0 : Here I am   My patience= 1.135
+0.000  	Customer 0 : Waited  0.000
+5.536  	Customer 0 : Finished
+11.141  Customer 1 : Here I am   My patience= 1.523
+11.141  Customer 1 : Waited  0.000
+34.482  Customer 2 : Here I am   My patience= 2.523
+36.123  Customer 1 : Finished
+36.123  Customer 2 : Waited  1.641
+38.869  Customer 2 : Finished
+39.943  Customer 3 : Here I am   My patience= 1.592
+39.943  Customer 3 : Waited  0.000
+49.113  Customer 4 : Here I am   My patience= 1.224
+50.337  Customer 4 : Reneged after   1.224
+59.948  Customer 3 : Finished
 */

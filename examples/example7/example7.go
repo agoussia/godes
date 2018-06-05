@@ -12,10 +12,10 @@ The simulation is ended when the last customer has been served.
 
 Task
 ====
-Execute multiple simulation runs, calculate Average, Standard Deviation, 
+Execute multiple simulation runs, calculate Average, Standard Deviation,
 confidence intervall lower and upper bounds,minimum	 and Maximum for the
-following performance measures: 
-	total elapsed time, 
+following performance measures:
+	total elapsed time,
 	queue length,
 	queueing time
 	service time.
@@ -44,8 +44,8 @@ While finishing a customer run  the application creates data arrays for each mea
 
 import (
 	"fmt"
-	"github.com/agoussia/godes"
 
+	"github.com/godes"
 )
 
 //Input Parameters
@@ -122,11 +122,9 @@ func (customer *Customer) Run() {
 	replicationStats = append(replicationStats, collectionArray)
 }
 
-func (customer *Customer) GetId() int{
+func (customer *Customer) GetId() int {
 	return customer.id
 }
-
-
 
 func main() {
 	statistics = [][]float64{}
@@ -165,11 +163,12 @@ func main() {
 	collector.PrintStat()
 	fmt.Printf("Finished \n")
 }
+
 /* OUTPUT
 Variable		#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
 Elapsed Time	100	 3.672	 1.217	 3.433	 3.910	 1.980	 8.722
 Queue Length	100	 4.684	 2.484	 4.197	 5.171	 1.539	14.615
 Queueing Time	100	 2.368	 1.194	 2.134	 2.602	 0.810	 7.350
 Service Time	100	 1.304	 0.044	 1.295	 1.312	 1.170	 1.432
-Finished 
+Finished
 */

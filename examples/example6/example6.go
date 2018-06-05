@@ -2,32 +2,37 @@
 // Use of this source code is governed by a MIT
 // license that can be found in the LICENSE file.
 package main
+
 /*
 Procces Description:
 ====================
-A bank employs three tellers and the customers form a queue for all three tellers. 
+A bank employs three tellers and the customers form a queue for all three tellers.
 The doors of the bank close after eight hours.
 The simulation is ended when the last customer has been served.
 */
 
 import (
 	"fmt"
-	"github.com/agoussia/godes"
+
+	"github.com/godes"
 )
+
 //Input Parameters
 const (
 	ARRIVAL_INTERVAL = 0.5
-	SERVICE_TIME = 1.3
-	SHUTDOWN_TIME = 8 * 60.
+	SERVICE_TIME     = 1.3
+	SHUTDOWN_TIME    = 8 * 60.
 )
+
 // the arrival and service are two random number generators for the exponential  distribution
 var arrival *godes.ExpDistr = godes.NewExpDistr(true)
 var service *godes.ExpDistr = godes.NewExpDistr(true)
+
 // true when any counter is available
 var counterSwt *godes.BooleanControl = godes.NewBooleanControl()
+
 // FIFO Queue for the arrived customers
 var customerArrivalQueue *godes.FIFOQueue = godes.NewFIFOQueue("0")
-
 
 var tellers *Tellers
 var measures [][]float64
@@ -38,10 +43,11 @@ var titles = []string{
 	"Service Time",
 }
 
-var availableTellers int = 0;
+var availableTellers int = 0
+
 // the Tellers is a Passive Object represebting resource
 type Tellers struct {
-	max     int
+	max int
 }
 
 func (tellers *Tellers) Catch(customer *Customer) {
@@ -103,6 +109,7 @@ func main() {
 	collector.PrintStat()
 	fmt.Printf("Finished \n")
 }
+
 /* OUTPUT
 Variable		#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
 Elapsed Time	944	 2.591	 1.959	 2.466	 2.716	 0.005	11.189
