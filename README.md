@@ -61,7 +61,7 @@ package main
 
 import (
 	"fmt"
-	"godes"
+	"github.com/godes"
 )
 
 // the arrival and service are two random number generators for the uniform  distribution
@@ -129,7 +129,7 @@ package main
 
 import (
 	"fmt"
-	"godes"
+	"github.com/godes"
 )
 
 // the arrival and service are two random number generators for the uniform  distribution
@@ -238,7 +238,7 @@ package main
 
 import (
 	"fmt"
-	"godes"
+	"github.com/godes"
 )
 
 // the arrival and service are two random number generators for the uniform  distribution
@@ -374,7 +374,7 @@ package main
 
 import (
 	"fmt"
-	"godes"
+	"github.com/godes"
 )
 
 // the arrival and service are two random number generators for the uniform  distribution
@@ -467,7 +467,7 @@ package main
 
 import (
 	"fmt"
-	"godes"
+	"github.com/godes"
 )
 
 const PT_MEAN = 10.0          //	Avg. processing time in minutes
@@ -577,7 +577,7 @@ package main
 
 import (
 	"fmt"
-	"godes"
+	"github.com/godes"
 )
 
 const NEW_CUSTOMERS = 5          // Total number of customers
@@ -673,7 +673,7 @@ package main
 
 import (
 	"fmt"
-	"godes"
+	"github.com/godes"
 )
 //Input Parameters
 const (
@@ -783,7 +783,7 @@ following performance measures: total elapsed time, queue length, queueing time,
 package main
 import (
 	"fmt"
-	"godes"
+	"github.com/godes"
 
 )
 
