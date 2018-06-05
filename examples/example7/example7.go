@@ -44,7 +44,7 @@ While finishing a customer run  the application creates data arrays for each mea
 
 import (
 	"fmt"
-	"godes"
+	"github.com/agoussia/godes"
 
 )
 

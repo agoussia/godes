@@ -5,7 +5,7 @@ package main
 
 import (
 	"fmt"
-	"godes"
+	"github.com/agoussia/godes"
 )
 
 const PT_MEAN = 10.0          //	Avg. processing time in minutes

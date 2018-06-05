@@ -12,7 +12,7 @@ The simulation is ended when the last customer has been served.
 
 import (
 	"fmt"
-	"godes"
+	"github.com/agoussia/godes"
 )
 //Input Parameters
 const (
