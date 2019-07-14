@@ -12,7 +12,7 @@ All active objects shall implement the RunnerInterface and have Run() method. Fo
 
 ###### Random Generators
 Godes contains set of built-in functions for generating random numbers for commonly used probability distributions.
-Each of the distrubutions in Godes has one or more parameter values associated with it: Uniform (Min, Max), Normal (Mean and Standard Deviation), Exponential (Lambda), Triangular(Min, Mode, Max)
+Each of the distributions in Godes has one or more parameter values associated with it: Uniform (Min, Max), Normal (Mean and Standard Deviation), Exponential (Lambda), Triangular(Min, Mode, Max)
 
 ###### Queues
 Godes implements operations with FIFO and LIFO queues
@@ -31,12 +31,12 @@ The Object calculates and prints statistical parameters for set of samples colle
 
 ### Advantages
 * Godes is easy to learn for the people familiar with the Go and the elementary simulation concept.
-* Godes model executes fast  as Go compiles to machine code. Its performace is similar to C++ in performance.
-* Godes model is multiplatform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows,etc.
+* Godes model executes fast  as Go compiles to machine code. Its performance is similar to C++ in performance.
+* Godes model is multi-platform as Go compiler targets the Linux, Mac OS X, FreeBSD, Microsoft Windows,etc.
 * Godes model can be embedded in various computer systems and over the network.
 * Speed of the Godes model compilation is high.
 * Variety of the IDE with debuggers are available for Go and Godes as well.
-* The Godes sumulation model can use all of the GO's features and libraries.
+* The Godes simulation model can use all of the GO's features and libraries.
 * Code Security - the Godes includes the  source code for the library and Go is an open source project supported by Google.
 * Godes is free open source software under MIT license.
 
@@ -50,7 +50,7 @@ $ go get github.com/agoussia/godes
 
 #### Example 0. Restaurant.Godes Basics
 
-###### Proces Description
+###### Process Description
 During the working day the visitors are entering the restaurant at random intervals and immediately get the table.
 The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
@@ -119,7 +119,7 @@ func main() {
 ***
 
 #### Example 1. Restaurant. Godes Boolean Controls
-###### Proces Description
+###### Process Description
 The restaurant has only one table to sit on. During the working day the visitors are entering the restaurant at random intervals
 and wait for the table to be available. The inter arrival interval is the random variable with uniform distribution from 0 to 70 minutes.The time spent in the restaurant is the random variable with uniform distribution from 10 to 60 minutes.
 The last visitor gets admitted not later than 8 hours after the opening.
@@ -140,7 +140,7 @@ var service *godes.UniformDistr = godes.NewUniformDistr(true)
 var tableBusy *godes.BooleanControl = godes.NewBooleanControl()
 
 // the Visitor is a Runner
-// any type of the Runner should be defined as struct // with the *godes.Runner as anonimous field
+// any type of the Runner should be defined as struct // with the *godes.Runner as anonymous field
 type Visitor struct {
 	*godes.Runner
 	number int
@@ -224,7 +224,7 @@ func main() {
 ***
 
 #### Example 2.  Restaurant. Godes Queues
-###### Proces Description
+###### Process Description
 During the four working hours the visitors are entering the restaurant at random intervals and form the arrival queue. 
 The inter arrival interval is the random variable with uniform distribution from 0 to 30 minutes. The restaurant employs two waiters who are servicing one visitor in a time. The service time  is the random variable with uniform distribution from 10 to 60 minutes. 
 The simulation itself is terminated when 
@@ -367,7 +367,7 @@ Average Waiting Time 15.016
 ***
 
 #### Example 3. Restaurant. Multiple Runs
-###### Proces Description
+###### Process Description
 This is the same process as in Example 2. Simulation is repeated 5 times.
 ```go
 package main
@@ -456,7 +456,7 @@ func main() {
 ```
 ***
 #### Example 4.  Machine Shop. Godes Interrupt and Resume Feature.
-###### Proces Description
+###### Process Description
 A workshop has *n* identical machines. A stream of jobs (enough to
 keep the machines busy) arrives. Each machine breaks down
 periodically. Repairs are carried out by one repairman.
@@ -569,7 +569,7 @@ func main() {
 ***
 
 #### Example 5.  Bank Counter. Godes Wait with Timeout Feature.
-###### Proces Description
+###### Process Description
 This example models a bank counter and customers arriving at random times. Each customer has a certain patience. It waits to get to the counter until she’s at the end of her tether. If she gets to the counter, she uses it for a while before releasing it.
 
 ```go
@@ -581,7 +581,7 @@ import (
 )
 
 const NEW_CUSTOMERS = 5          // Total number of customers
-const INTERVAL_CUSTOMERS = 12.00 // Generate new customers roughly every x minites
+const INTERVAL_CUSTOMERS = 12.00 // Generate new customers roughly every x minutes
 const SERVICE_TIME = 12.0
 const MIN_PATIENCE = 1 // Min. customer patience
 const MAX_PATIENCE = 3 // Max. customer patience
@@ -652,13 +652,13 @@ func main() {
 */
 ```
 ***
-#### Example 6. Bank. Sngle Run, FIFO Queue, Parallel Resources, StatCollector
-###### Proces Description
+#### Example 6. Bank. Single Run, FIFO Queue, Parallel Resources, StatCollector
+###### Process Description
 A bank employs three tellers and the customers form a queue for all three tellers. The doors of the bank close after eight hours. The simulation is ended when the last customer has been served.
 ###### Task
 Execute single simulation run, calculate average, standard deviation,
 confidence interval, lower and upper bounds, minimum and maximum values for the
-following performance measures: total elapsed time, queue length, queueing time
+following performance measures: total elapsed time, queue length, queuing time
 service time.
 ###### Model Features
 * **FIFO Queue.** The customer object is placed in the FIFO arrival queue as soon as the customer is created.
@@ -666,7 +666,7 @@ service time.
 The object 'provides' tellers to the customer located in the Queue head and "releases" the teller when customer is serviced.
 Maximum 3 tellers can be provided simultaneously. The interlocking between catching request is performed using godes BooleanControl object.
 * **Collection and processing of statistics.** While finishing a customer run  the application creates data arrays for each measure. At the end of simulation, the application creates StatCollector object and performs descriptive statistical analysis. The following statistical parameters are calculated for each measure array:
-	Observ - number of observations, Average - average (mean) value, Std Dev- standard deviation, L-Bound-lower bound of the confidence interval  with 95% probability, U-Bound-upper bound of the confidence interval  with 95% probability,
+	Observe - number of observations, Average - average (mean) value, Std Dev- standard deviation, L-Bound-lower bound of the confidence interval  with 95% probability, U-Bound-upper bound of the confidence interval  with 95% probability,
 	Minimum value,Maximum value
 ```go
 package main
@@ -695,12 +695,12 @@ var measures [][]float64
 var titles = []string{
 	"Elapsed Time",
 	"Queue Length",
-	"Queueing Time",
+	"Queuing Time",
 	"Service Time",
 }
 
 var availableTellers int = 0;
-// the Tellers is a Passive Object represebting resource
+// the Tellers is a Passive Object representing resource
 type Tellers struct {
 	max     int
 }
@@ -768,17 +768,17 @@ func main() {
 Variable		#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
 Elapsed Time	944	 2.591	 1.959	 2.466	 2.716	 0.005	11.189
 Queue Length	944	 2.411	 3.069	 2.215	 2.607	 0.000	13.000
-Queueing Time	944	 1.293	 1.533	 1.195	 1.391	 0.000	 6.994
+Queuing Time	944	 1.293	 1.533	 1.195	 1.391	 0.000	 6.994
 Service Time	944	 1.298	 1.247	 1.219	 1.378	 0.003	 7.824
 */
 ```
 #### Example 7.  Bank.  Multiple Runs, FIFO Queue, Parallel Resources, StatCollector
-###### Procces Description
-See example 6.
+###### Process Description
+See Example 6.
 ###### Task
 Execute multiple simulation runs, calculate Average, Standard Deviation, 
-confidence intervall lower and upper bounds,minimu and maximum for the
-following performance measures: total elapsed time, queue length, queueing time, service time.
+confidence interval lower and upper bounds, minimum and maximum for the
+following performance measures: total elapsed time, queue length, queuing time, service time.
 ```go
 package main
 import (
@@ -811,13 +811,13 @@ var replicationStats [][]float64
 var titles = []string{
 	"Elapsed Time",
 	"Queue Length",
-	"Queueing Time",
+	"Queuing Time",
 	"Service Time",
 }
 
 var availableTellers int = 0
 
-// the Tellers is a Passive Object represebting resource
+// the Tellers is a Passive Object representing resource
 type Tellers struct {
 	max int
 }
@@ -908,7 +908,7 @@ func main() {
 Variable	#	Average	Std Dev	L-Bound	U-Bound	Minimum	Maximum
 Elapsed Time	100	 3.672	 1.217	 3.433	 3.910	 1.980	 8.722
 Queue Length	100	 4.684	 2.484	 4.197	 5.171	 1.539	14.615
-Queueing Time	100	 2.368	 1.194	 2.134	 2.602	 0.810	 7.350
+Queuing Time	100	 2.368	 1.194	 2.134	 2.602	 0.810	 7.350
 Service Time	100	 1.304	 0.044	 1.295	 1.312	 1.170	 1.432
 Finished 
 */
