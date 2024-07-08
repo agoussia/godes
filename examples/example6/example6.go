@@ -14,10 +14,10 @@ The simulation is ended when the last customer has been served.
 import (
 	"fmt"
 
-	"github.com/godes"
+	"github.com/agoussia/godes"
 )
 
-//Input Parameters
+// Input Parameters
 const (
 	ARRIVAL_INTERVAL = 0.5
 	SERVICE_TIME     = 1.3
