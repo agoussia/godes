@@ -111,3 +111,14 @@ func (q *Queue) Clear() {
 	q.qList.Init()
 	q.qTime.Init()
 }
+
+// NEW: Get List
+func (q *Queue) GetSlice() []any {
+	slice := []any{}
+	l := q.qList
+	for e := l.Front(); e != nil; e = e.Next() {
+		fmt.Println(e.Value)
+		slice = append(slice, e.Value)
+	}
+	return slice
+}
