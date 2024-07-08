@@ -115,7 +115,6 @@ func (q *Queue) GetSlice() []any {
 	slice := []any{}
 	l := q.qList
 	for e := l.Front(); e != nil; e = e.Next() {
-
 		slice = append(slice, e.Value)
 	}
 	return slice
